@@ -89,15 +89,25 @@ class TraveliaAssistant extends HTMLElement {
               if (!signal.aborted && revision === this.#revision) add('assistant', 'El asistente alcanzó su límite de consultas. Inténtalo más tarde.');
               return;
             }
+            if (!response.headers.get('content-type')?.includes('application/json') &&
+                (response.ok || [502, 503, 504].includes(response.status))) {
+              if (revision === this.#revision) add('assistant', 'El servidor del asistente puede estar iniciando. Espera un momento y vuelve a enviar tu pregunta.');
+              return;
+            }
             if (!response.ok) throw new Error('Servicio no disponible');
             const answer = await response.json();
             if (typeof answer.text !== 'string' || !answer.text.trim()) throw new Error('Respuesta inválida');
             reply = { text: answer.text.slice(0, 6000), topic: answer.topic };
             if (answer.source !== 'ai' || answer.provider !== 'gemini') throw new Error('Respuesta de Gemini no verificable');
             source = answer.generated === false ? 'Cálculo de Travelia · Gemini consultado' : 'Respuesta de Gemini · ' + String(answer.model ?? '').slice(0, 80);
-          } catch {
+          } catch (error) {
             if (signal.aborted) return;
-            if (revision === this.#revision) add('assistant', 'Gemini no está disponible en este momento. Inténtalo más tarde.');
+            if (revision === this.#revision) {
+              const message = error?.name === 'TimeoutError'
+                ? 'El asistente tardó más de lo esperado. Si el servidor estaba inactivo, puede seguir iniciando. Inténtalo de nuevo en un momento.'
+                : 'Gemini no está disponible en este momento. Inténtalo más tarde.';
+              add('assistant', message);
+            }
             return;
           }
         }
