@@ -1,0 +1,58 @@
+.travelia-planner { --tp-ink: #10334c; --tp-muted: #52616b; --tp-paper: #fcfaf4; --tp-line: #d5dfe2; }
+.travelia-planner travelia-planner { display: block; }
+.travelia-planner [hidden] { display: none !important; }
+.tp-intro { max-width: 53rem; margin: 0 auto 1.4rem; }
+.tp-form { max-width: 53rem; margin: auto; padding: clamp(1rem, 4vw, 2rem); background: var(--tp-paper); border: 1px solid var(--tp-line); border-radius: .75rem; }
+.tp-form fieldset { border: 0; margin: 1.4rem 0 0; padding: 0; min-width: 0; }
+.tp-form legend { padding: 0; font-weight: 750; margin-bottom: .9rem; font-size: clamp(1.2rem, 3vw, 1.55rem); }
+.tp-step { margin: 0; font-weight: 700; }
+.tp-form progress { width: 100%; height: .75rem; accent-color: var(--tp-ink); }
+.tp-choices, .tp-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
+.tp-choice { display: flex; align-items: center; gap: .65rem; min-height: 3rem; padding: .65rem .75rem; background: white; border: 1px solid var(--tp-line); border-radius: .5rem; cursor: pointer; }
+.tp-choice:has(input:checked) { background: #fff3cc; border-color: #765900; }
+.tp-choice input { accent-color: var(--tp-ink); flex: none; }
+.tp-field { display: block; font-weight: 650; }
+[data-conditional] .tp-field { margin-top: .75rem; }
+.tp-field :is(select, input) { display: block; max-width: 100%; min-width: 0; width: 100%; min-height: 44px; margin-top: .25rem; padding: .55rem; border: 1px solid var(--tp-muted); color: var(--tp-ink); background: #fff; font: inherit; }
+.tp-error { color: #8a2525; margin: .8rem 0 0; }
+.tp-form-actions { margin-top: 1.25rem; }
+.tp-success { display: flex; gap: .8rem; align-items: center; padding: 1rem; background: #e4f1e8; color: #1c4931; border-radius: .6rem; }
+.tp-success > span:first-child { font-size: 1.4rem; }
+.tp-hero { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: .8rem; }
+.tp-hero:not(:has(.tp-photo:not([hidden]))) { grid-template-columns: 1fr; }
+.tp-photo { width: 100%; height: 100%; min-height: 13rem; object-fit: cover; border-radius: .6rem; }
+.tp-hero-copy, .tp-summary { padding: clamp(1rem, 3vw, 1.5rem); background: #f0f4f6; border-radius: .6rem; }
+.tp-hero-copy h3 { font: 550 clamp(1.7rem, 4vw, 3rem)/1.12 Georgia, serif; }
+.tp-hero-details { margin-bottom: 0; font-weight: 650; }
+.tp-result-grid { display: grid; grid-template-columns: minmax(0, 2fr) minmax(18rem, 1fr); align-items: start; gap: clamp(.8rem, 3vw, 1.6rem); margin: 1.5rem 0; }
+.tp-result h4 { margin: 0 0 .65rem; font-size: 1.25rem; }
+.tp-days { margin: 0; padding: 0; list-style: none; display: grid; gap: .65rem; }
+.tp-day { display: grid; grid-template-columns: minmax(0, 1fr) 7rem; gap: .8rem; background: var(--tp-paper); border: 1px solid var(--tp-line); border-radius: .6rem; padding: .85rem; }
+.tp-day:not(:has(img)) { grid-template-columns: 1fr; }
+.tp-day-tag { color: #644c00; font-weight: 750; margin-bottom: .4rem; }
+.tp-day h5 { margin: 0 0 .45rem; font-size: 1.05rem; }
+.tp-day ul { margin: 0; padding-inline-start: 1.1rem; }
+.tp-day-photo { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; border-radius: .4rem; align-self: center; }
+.tp-summary dl { margin: 0 0 .8rem; }
+.tp-summary dl div { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; padding: .55rem 0; border-bottom: 1px solid var(--tp-line); }
+.tp-summary dt { font-weight: 750; }
+.tp-summary dd { margin: 0; }
+.tp-estimate { color: var(--tp-muted); font-size: .875rem; }
+.tp-actions { display: grid; gap: .55rem; }
+.tp-result { overflow-wrap: anywhere; }
+@media (max-width: 760px) {
+  .tp-hero, .tp-result-grid { grid-template-columns: 1fr; }
+  .tp-photo { height: auto; aspect-ratio: 3 / 2; min-height: auto; }
+}
+@media (max-width: 480px) {
+  .tp-choices, .tp-pair { grid-template-columns: 1fr; }
+  .tp-day { grid-template-columns: minmax(0, 1fr) 4rem; }
+}
+@media print {
+  body:has([data-print-active]) :is(.shopify-section, header, footer, .skip-link):not(:has([data-print-active])) { display: none !important; }
+  body:has([data-print-active]) .travelia-planner { width: 100%; padding: 0; }
+  body:has([data-print-active]) .tp-actions { display: none; }
+  .tp-result-grid { display: block; }
+  .tp-summary { margin-top: 1rem; }
+  .tp-hero, .tp-day, .tp-summary dl div { break-inside: avoid; }
+}

@@ -1,124 +1,122 @@
-<section id="planifica" class="travelia-planner" aria-labelledby="travelia-title-{{ section.id }}">
-  <h2 id="travelia-title-{{ section.id }}">Planifica tu viaje</h2>
-  <p>Cuéntanos cómo quieres viajar y obtén una propuesta de ruta por el Perú.</p>
+{{ 'travelia-planner.css' | asset_url | stylesheet_tag }}
+<section id="planifica" class="travelia-planner wrap section-space" aria-labelledby="travelia-title-{{ section.id }}">
   <travelia-planner data-engine="{{ 'travelia-itinerary.js' | asset_url }}">
+    <div data-intro class="tp-intro">
+      <p class="eyebrow">Planificador de viajes</p>
+      <h2 id="travelia-title-{{ section.id }}">Tu próximo viaje por el Perú</h2>
+      <p>Responde diez preguntas para encontrar una ruta que se adapte a ti.</p>
+    </div>
     <noscript>Activa JavaScript para usar el planificador.</noscript>
-    <form hidden>
-      <p data-progress role="status"></p>
-      <fieldset>
-        <legend>¿Cuál es tu destino ideal?</legend>
-        <label>Destino
-          <select name="destination" required>
-            <option value="">Elige un destino</option>
-            <option value="colca">Cañón del Colca</option>
-            <option value="gocta">Catarata de Gocta</option>
-            <option value="kuelap">Kuélap</option>
-            <option value="titicaca">Lago Titicaca</option>
-            <option value="humantay">Laguna Humantay</option>
-            <option value="machupicchu">Machu Picchu</option>
-            <option value="vinicunca">Montaña de 7 Colores</option>
-            <option value="huacachina">Huacachina</option>
-          </select>
-        </label>
+    <p data-load-error role="alert" hidden>No pudimos cargar el planificador. Vuelve a cargar esta página.</p>
+    <form class="tp-form" hidden novalidate>
+      <p class="tp-step" data-step-label aria-live="polite"></p>
+      <progress value="1" max="10" aria-label="Progreso del cuestionario"></progress>
+      <fieldset data-step="1">
+        <legend tabindex="-1">¿Qué destino te gustaría conocer?</legend>
+        <div class="tp-choices"><label class="tp-choice"><input type="radio" name="destinationMode" value="elegido"><span>Tengo un destino en mente</span></label><label class="tp-choice"><input type="radio" name="destinationMode" value="descubrir"><span>Quiero descubrir nuevos lugares</span></label><label class="tp-choice"><input type="radio" name="destinationMode" value="recomendar"><span>Quiero que me recomienden un destino</span></label></div><div data-conditional="destination" hidden><label class="tp-field">Destino<select name="destination"><option value="">Selecciona una opción</option><option value="colca">Cañón del Colca</option>
+<option value="gocta">Catarata de Gocta</option>
+<option value="kuelap">Kuélap</option>
+<option value="titicaca">Lago Titicaca</option>
+<option value="humantay">Laguna Humantay</option>
+<option value="machupicchu">Machu Picchu</option>
+<option value="vinicunca">Montaña de 7 Colores</option>
+<option value="huacachina">Huacachina</option>
+<option value="otro">Otro destino</option></select></label><div data-conditional="customDestination" hidden><label class="tp-field">Escribe tu destino<input name="customDestination" maxlength="80" type="text"></label></div></div>
       </fieldset>
-      <fieldset hidden disabled>
-        <legend>¿Cuándo te gustaría viajar?</legend>
-        <label>Fecha de inicio <input type="date" name="date" required></label>
+      <fieldset data-step="2" hidden>
+        <legend tabindex="-1">¿Qué tipo de destino prefieres?</legend>
+        <p>Puedes seleccionar varias opciones.</p><div class="tp-choices"><label class="tp-choice"><input type="checkbox" name="types" value="naturaleza"><span>Playas y naturaleza</span></label><label class="tp-choice"><input type="checkbox" name="types" value="montaña"><span>Montañas y aventura</span></label><label class="tp-choice"><input type="checkbox" name="types" value="cultura"><span>Cultura e historia</span></label><label class="tp-choice"><input type="checkbox" name="types" value="ciudad"><span>Gastronomía y ciudades</span></label><label class="tp-choice"><input type="checkbox" name="types" value="mixto"><span>Una combinación de varios</span></label></div>
       </fieldset>
-      <fieldset hidden disabled>
-        <legend>¿Cuántos días durará tu viaje?</legend>
-        <label>Días (1 a 14) <input type="number" name="duration" min="1" max="14" required></label>
+      <fieldset data-step="3" hidden>
+        <legend tabindex="-1">¿En qué fecha deseas viajar?</legend>
+        <div class="tp-choices"><label class="tp-choice"><input type="radio" name="dateMode" value="fija"><span>Tengo fechas definidas</span></label><label class="tp-choice"><input type="radio" name="dateMode" value="flexible"><span>Mis fechas son flexibles</span></label></div><div data-conditional="dates" hidden><div class="tp-pair"><label class="tp-field">Fecha de inicio<input type="date" name="startDate"></label><label class="tp-field">Fecha de retorno<input type="date" name="endDate"></label></div></div>
       </fieldset>
-      <fieldset hidden disabled>
-        <legend>¿Con quién viajarás?</legend>
-        <label>Compañía
-          <select name="group" required>
-            <option value="">Elige una opción</option>
-            <option value="solo">Por mi cuenta</option>
-            <option value="pareja">En pareja</option>
-            <option value="amigos">Con amigos</option>
-            <option value="familia">En familia</option>
-          </select>
-        </label>
+      <fieldset data-step="4" hidden>
+        <legend tabindex="-1">¿Cuántos días tienes disponibles?</legend>
+        <p data-derived-days hidden></p><div data-conditional="duration" hidden><label class="tp-field">Rango de duración<select name="durationBand"><option value="">Selecciona una opción</option><option value="breve">1 a 2 días</option>
+<option value="corto">3 a 4 días</option>
+<option value="semana">5 a 7 días</option>
+<option value="largo">Más de una semana (hasta 30 días)</option></select></label><label class="tp-field">Número exacto de días<input name="duration" type="number" min="1" max="30" step="1" value=""></label></div>
       </fieldset>
-      <fieldset hidden disabled>
-        <legend>¿Qué tipo de actividades prefieres?</legend>
-        <label>Interés principal
-          <select name="interest" required>
-            <option value="">Elige una opción</option>
-            <option value="cultura">Cultura</option>
-            <option value="naturaleza">Naturaleza</option>
-            <option value="aventura">Aventura</option>
-            <option value="gastronomia">Gastronomía</option>
-          </select>
-        </label>
+      <fieldset data-step="5" hidden>
+        <legend tabindex="-1">¿Con quién realizarás el viaje?</legend>
+        <div class="tp-choices"><label class="tp-choice"><input type="radio" name="group" value="solo"><span>Solo</span></label><label class="tp-choice"><input type="radio" name="group" value="pareja"><span>En pareja</span></label><label class="tp-choice"><input type="radio" name="group" value="amigos"><span>Con amigos</span></label><label class="tp-choice"><input type="radio" name="group" value="familia"><span>En familia</span></label><label class="tp-choice"><input type="radio" name="group" value="organizado"><span>En grupo organizado</span></label></div>
       </fieldset>
-      <fieldset hidden disabled>
-        <legend>¿Cuál es tu presupuesto aproximado por persona?</legend>
-        <label>Presupuesto en soles <input type="number" name="budget" min="1" max="100000" step="0.01" required></label>
+      <fieldset data-step="6" hidden>
+        <legend tabindex="-1">¿Cuántas personas viajarán?</legend>
+        <div class="tp-pair"><label class="tp-field">Adultos<input name="adults" type="number" min="1" max="50" step="1" value=""></label><label class="tp-field">Niños<input name="children" type="number" min="0" max="49" step="1" value="0"></label></div>
       </fieldset>
-      <p data-error role="alert" hidden></p>
-      <div class="travelia-planner__actions">
-        <button type="button" data-back hidden>Volver</button>
-        <button type="submit" data-next>Continuar</button>
+      <fieldset data-step="7" hidden>
+        <legend tabindex="-1">¿Cuál es tu presupuesto aproximado por persona?</legend>
+        <div class="tp-choices"><label class="tp-choice"><input type="radio" name="budgetBand" value="bajo"><span>Menos de S/ 300</span></label><label class="tp-choice"><input type="radio" name="budgetBand" value="medio"><span>S/ 300 a S/ 600</span></label><label class="tp-choice"><input type="radio" name="budgetBand" value="alto"><span>S/ 600 a S/ 1,000</span></label><label class="tp-choice"><input type="radio" name="budgetBand" value="comodo"><span>S/ 1,000 a S/ 1,500</span></label><label class="tp-choice"><input type="radio" name="budgetBand" value="amplio"><span>Más de S/ 1,500</span></label><label class="tp-choice"><input type="radio" name="budgetBand" value="personalizado"><span>Otro monto</span></label></div><div data-conditional="budget" hidden><label class="tp-field">Presupuesto por persona en soles<input name="budget" type="number" min="1" max="100000" step="0.01" value=""></label></div>
+      </fieldset>
+      <fieldset data-step="8" hidden>
+        <legend tabindex="-1">¿Qué actividades te gustaría realizar durante tu viaje?</legend>
+        <p>Puedes seleccionar varias opciones.</p><div class="tp-choices"><label class="tp-choice"><input type="checkbox" name="activities" value="trekking"><span>Caminatas y trekking</span></label><label class="tp-choice"><input type="checkbox" name="activities" value="aventura"><span>Deportes de aventura</span></label><label class="tp-choice"><input type="checkbox" name="activities" value="cultura"><span>Visitas culturales e históricas</span></label><label class="tp-choice"><input type="checkbox" name="activities" value="comida"><span>Gastronomía local</span></label><label class="tp-choice"><input type="checkbox" name="activities" value="fotos"><span>Fotografía y paisajes</span></label><label class="tp-choice"><input type="checkbox" name="activities" value="descanso"><span>Descanso y relajación</span></label><label class="tp-choice"><input type="checkbox" name="activities" value="familia"><span>Actividades familiares</span></label></div>
+      </fieldset>
+      <fieldset data-step="9" hidden>
+        <legend tabindex="-1">¿Qué tipo de alojamiento y transporte prefieres?</legend>
+        <div class="tp-pair"><label class="tp-field">Alojamiento<select name="stay"><option value="">Selecciona una opción</option><option value="economico">Económico</option>
+<option value="estandar">Estándar</option>
+<option value="comodo">Cómodo</option>
+<option value="ninguno">No necesito alojamiento</option></select></label><label class="tp-field">Transporte<select name="transport"><option value="">Selecciona una opción</option><option value="bus">Autobús</option>
+<option value="tren">Tren</option>
+<option value="avion">Avión</option>
+<option value="privado">Transporte privado</option>
+<option value="flexible">Sin preferencia</option></select></label></div>
+      </fieldset>
+      <fieldset data-step="10" hidden>
+        <legend tabindex="-1">¿Qué tan intenso quieres que sea tu viaje?</legend>
+        <div class="tp-choices"><label class="tp-choice"><input type="radio" name="pace" value="relajado"><span>Relajado · pocas actividades y tiempo libre</span></label><label class="tp-choice"><input type="radio" name="pace" value="equilibrado"><span>Equilibrado · actividades y descanso</span></label><label class="tp-choice"><input type="radio" name="pace" value="intenso"><span>Intenso · más actividades por día</span></label></div>
+      </fieldset>
+      <p data-error class="tp-error" role="alert" hidden></p>
+      <div class="actions tp-form-actions">
+        <button class="button button-outline" type="button" data-back hidden>Anterior</button>
+        <button class="button" type="submit" data-next>Continuar</button>
       </div>
     </form>
-    <div data-result hidden>
-      <h3 tabindex="-1" data-result-title></h3>
-      <p data-summary></p>
-      <p>Propuesta orientativa. El presupuesto se reparte por día y los precios reales dependen de los proveedores.</p>
-      <h4>Tu itinerario</h4>
-      <ol data-days></ol>
+    <div data-result class="tp-result" hidden>
+      <p class="tp-success"><span aria-hidden="true">✓</span><span><strong>¡Tu itinerario está listo!</strong><br>Preparamos una propuesta de viaje según tus respuestas.</span></p>
+      <div class="tp-hero">
+        <img data-photo class="tp-photo" width="720" height="480" alt="" hidden>
+        <div class="tp-hero-copy">
+          <p class="eyebrow" data-origin></p>
+          <h3 data-title tabindex="-1"></h3>
+          <p data-subtitle></p>
+          <p data-hero-details class="tp-hero-details"></p>
+        </div>
+      </div>
+      <div class="tp-result-grid">
+        <div>
+          <h4>Itinerario sugerido</h4>
+          <ol class="tp-days" data-days></ol>
+        </div>
+        <aside class="tp-summary" aria-label="Resumen del viaje">
+          <h4>Resumen del viaje</h4>
+          <dl data-summary></dl>
+          <p class="tp-estimate">Presupuesto orientativo según tu respuesta. Consulta tarifas, disponibilidad y condiciones con cada proveedor.</p>
+          <div class="tp-actions">
+            <a class="button" data-packages href="{{ section.settings.experiences_url | default: routes.all_products_collection_url | escape }}">Ver paquetes disponibles</a>
+            <button class="button button-outline" type="button" data-reset>Realizar una nueva planificación</button>
+            <button class="button button-outline" type="button" data-print>Guardar o imprimir itinerario</button>
+          </div>
+        </aside>
+      </div>
       <h4>Antes de viajar</h4>
       <ul data-tips></ul>
-      <div class="travelia-planner__actions">
-        <a href="{{ section.settings.experiences_url | default: routes.all_products_collection_url | escape }}">Consultar experiencias</a>
-        <button type="button" data-reset>Nueva planificación</button>
-      </div>
+    </div>
+    <div hidden data-experiences>
+      {% assign handles = 'canon-del-colca,catarata-de-gocta,kuelap,lago-titicaca-e-islas-de-los-uros,laguna-humantay,machu-picchu,montana-de-7-colores,oasis-de-huacachina' | split: ',' %}
+      {% for handle in handles %}
+        {% assign experience = all_products[handle] %}
+        {% if experience != blank and experience.available %}
+          <a data-handle="{{ handle | escape }}" href="{{ experience.url }}">{{ experience.title | escape }}</a>
+        {% endif %}
+      {% endfor %}
     </div>
   </travelia-planner>
 </section>
 <script type="module" src="{{ 'travelia-planner.js' | asset_url }}"></script>
-{% stylesheet %}
-  .travelia-planner {
-    max-width: 55rem;
-    margin-inline: auto;
-    padding: clamp(2rem, 6vw, 5rem) max(1rem, 4vw);
-    color: #10334c;
-  }
-  .travelia-planner travelia-planner { display: block; }
-  .travelia-planner form, .travelia-planner [data-result] {
-    margin-top: 1.5rem;
-    padding: clamp(1rem, 4vw, 2rem);
-    background: #f5f8f8;
-    border: 1px solid #c1ced1;
-  }
-  .travelia-planner [hidden] { display: none; }
-  .travelia-planner fieldset { border: 0; padding: 0; min-width: 0; margin: 0; }
-  .travelia-planner legend { font-size: 1.25rem; font-weight: 700; margin-block: 0.75rem; }
-  .travelia-planner label, .travelia-planner input, .travelia-planner select { display: block; }
-  .travelia-planner input, .travelia-planner select {
-    width: 100%;
-    min-height: 44px;
-    padding: 0.5rem;
-    margin-top: 0.375rem;
-    color: #10334c;
-    background: #fff;
-    border: 1px solid #52616b;
-  }
-  .travelia-planner__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
-  .travelia-planner__actions button, .travelia-planner__actions a {
-    min-height: 44px;
-    padding: 0.6rem 1rem;
-    border: 1px solid #10334c;
-    color: #10334c;
-    background: #fff;
-    font: inherit;
-    cursor: pointer;
-  }
-  .travelia-planner__actions [type="submit"], .travelia-planner__actions a { background: #ffc527; }
-  .travelia-planner :focus-visible { outline: 3px solid #10334c; outline-offset: 3px; }
-{% endstylesheet %}
 {% schema %}
 {
   "name": "Planificador Travelia",
