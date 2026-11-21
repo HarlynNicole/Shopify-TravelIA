@@ -235,7 +235,14 @@ export const catalog = {
     "altitude": false,
     "description": "Un oasis rodeado de dunas en el desierto de Ica.",
     "area": "Costa",
-    "minDays": 1
+    "minDays": 1,
+    "highlights": [
+      "Paseo y fotografía alrededor del oasis de Huacachina",
+      "Sandboard en zonas habilitadas de las dunas",
+      "Visita a una bodega de la Ruta del Pisco en Ica"
+    ],
+    "visit": "1 a 2 días con base en Ica",
+    "advice": "Deja la fotografía para cuando baje el sol. Para sandboard, confirma el sector habilitado, el equipo y las indicaciones de seguridad."
   },
   "paracas": {
     "name": "Islas Ballestas y Reserva Nacional de Paracas",

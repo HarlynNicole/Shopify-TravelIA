@@ -1,3 +1,26 @@
+function renderAdvice(container, content) {
+  let list;
+  for (const rawLine of content.split(/\r?\n/)) {
+    const line = rawLine.trim();
+    if (!line) {
+      list = undefined;
+      continue;
+    }
+    const bullet = line.match(/^(?:[•*-]|\d+[.)])\s+(.+)$/);
+    const clean = (bullet?.[1] ?? line).replace(/^#{1,6}\s+/, '')
+      .replace(/\*{1,3}([^*\n]+)\*{1,3}/g, '$1').replace(/_{1,2}([^_\n]+)_{1,2}/g, '$1')
+      .replace(/\x60([^\x60]+)\x60/g, '$1').replace(/\*+/g, '');
+    if (bullet && !list) {
+      list = document.createElement('ul');
+      container.append(list);
+    }
+    if (!bullet) list = undefined;
+    const block = document.createElement(bullet ? 'li' : 'p');
+    block.textContent = clean;
+    (list ?? container).append(block);
+  }
+}
+
 class TraveliaAssistant extends HTMLElement {
   #listeners;
   #trip = null;
@@ -30,11 +53,12 @@ class TraveliaAssistant extends HTMLElement {
       launcher.setAttribute('aria-expanded', String(show));
       (show ? input : launcher).focus();
     };
-    const add = (role, content, source) => {
-      const message = document.createElement('p');
+    const add = (role, content) => {
+      const message = document.createElement(role === 'user' ? 'p' : 'div');
       message.className = 'ta-message';
       if (role === 'user') message.dataset.user = '';
-      message.textContent = source ? source + '\n' + content : content;
+      if (role === 'user') message.textContent = content;
+      else renderAdvice(message, content);
       chat.append(message);
       chat.scrollTop = chat.scrollHeight;
       return message;
@@ -72,11 +96,10 @@ class TraveliaAssistant extends HTMLElement {
       const conversation = messages.slice(-16);
       busy = send.disabled = true;
       prompts.forEach((button) => { button.disabled = true; });
-      status.textContent = endpoint ? 'Consultando a Gemini… El primer mensaje puede tardar alrededor de un minuto.' : 'Preparando respuesta…';
+      status.textContent = endpoint ? 'Estoy pensando en tu viaje… La primera respuesta puede tardar un poco.' : 'Preparando respuesta…';
       status.hidden = false;
       try {
         let reply;
-        let source = 'Orientación de Travelia';
         if (endpoint) {
           try {
             const response = await fetch(endpoint, {
@@ -99,14 +122,13 @@ class TraveliaAssistant extends HTMLElement {
               const verified = ['gemini_configuration', 'gemini_timeout', 'gemini_unavailable', 'gemini_empty'].includes(answer?.code);
               const reference = typeof answer?.requestId === 'string' && /^[a-f0-9-]{36}$/.test(answer.requestId) ? ' Referencia: ' + answer.requestId : '';
               if (!signal.aborted && revision === this.#revision) {
-                add('assistant', (verified && typeof answer.error === 'string' ? answer.error.slice(0, 240) : 'Gemini no está disponible en este momento. Inténtalo más tarde.') + reference);
+                add('assistant', (verified && typeof answer.error === 'string' ? answer.error.slice(0, 240) : 'No pude responder en este momento. ¿Lo intentas de nuevo en un rato?') + reference);
               }
               return;
             }
             if (typeof answer.text !== 'string' || !answer.text.trim()) throw new Error('Respuesta inválida');
             reply = { text: answer.text.slice(0, 6000), topic: answer.topic };
             if (answer.source !== 'ai' || answer.provider !== 'gemini') throw new Error('Respuesta de Gemini no verificable');
-            source = answer.generated === false ? 'Cálculo de Travelia · Gemini consultado' : 'Respuesta de Gemini · ' + String(answer.model ?? '').slice(0, 80);
           } catch (error) {
             if (signal.aborted) return;
             if (revision === this.#revision) {
@@ -124,7 +146,7 @@ class TraveliaAssistant extends HTMLElement {
         }
         if (signal.aborted || revision !== this.#revision) return;
         topic = reply.topic;
-        add('assistant', reply.text, source);
+        add('assistant', reply.text);
         messages.push({ role: 'assistant', content: reply.text });
         messages = messages.slice(-16);
       } catch {

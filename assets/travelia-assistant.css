@@ -16,3 +16,11 @@
 .ta-form input { flex: 1; min-width: 0; min-height: 44px; padding: .45rem; font: inherit; border: 1px solid #52616b; color: #10334c; }
 .ta-form button { background: #ffc527; border: 1px solid #10334c; padding-inline: .7rem; color: #10334c; font-weight: 750; }
 @media print { .ta-widget { display: none !important; } }
+
+.ta-panel header .ta-tagline { margin-block: .15rem .2rem; color: #ffe59a; }
+.ta-message { line-height: 1.5; }
+.ta-message :is(p, ul) { margin: 0; }
+.ta-message :is(p, ul) + :is(p, ul) { margin-top: .65rem; }
+.ta-message ul { padding-inline-start: 1.1rem; }
+.ta-message li + li { margin-top: .3rem; }
+.ta-form input { border-radius: .35rem; }
