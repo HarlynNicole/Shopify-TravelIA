@@ -1,6 +1,6 @@
 # Travelia
 
-Tema original de Shopify Online Store 2.0 para descubrir destinos y experiencias en Perú. Incluye portada, guía de ocho destinos, planificador de diez preguntas, contacto, catálogo, ficha de producto y carrito nativo.
+Tema original de Shopify Online Store 2.0 para descubrir destinos y experiencias en Perú. Incluye portada, guía de catorce destinos, planificador de diez preguntas, contacto, catálogo, ficha de producto y carrito nativo.
 
 ## Conexión y vista previa
 
@@ -10,8 +10,12 @@ Tema original de Shopify Online Store 2.0 para descubrir destinos y experiencias
 4. Revisa en el editor la fotografía de portada, los bloques de destinos y el menú. Las plantillas de página opcionales son **travelia-planificador** y **contact**.
 5. Para probar compras, activa un producto de prueba en la Tienda online y usa el checkout de Shopify en el modo de prueba que tenga configurado la tienda.
 
-El catálogo muestra los productos visibles en Tienda online y sus precios reales. El planificador compara ocho destinos con reglas locales y adapta la ruta a diez respuestas. Muestra el presupuesto declarado por persona y su proyección para el grupo. El resultado puede imprimirse o guardarse como PDF desde el navegador. Las tarifas, horarios y reservas requieren confirmación con los proveedores.
+El catálogo muestra los productos visibles en Tienda online y sus precios reales. El planificador compara catorce destinos con reglas locales y adapta la ruta a diez respuestas. Muestra el presupuesto declarado por persona y su proyección para el grupo. El resultado puede imprimirse o guardarse como PDF desde el navegador. Las tarifas, horarios y reservas requieren confirmación con los proveedores.
 
 Ejecuta `shopify theme check` desde la raíz y `shopify theme dev --store 8tz27r-cj.myshopify.com` con una sesión autorizada. Consulta `docs/` para las comprobaciones.
 
 [Integración oficial de GitHub](https://shopify.dev/docs/storefronts/themes/tools/github)
+
+## Asistente TravelIA
+
+El asistente usa la guía y el itinerario de la sesión. Para activar las respuestas de IA, despliega el servicio HTTPS descrito en [Configuración del asistente](docs/ASSISTANT.md). Con el servicio sin configurar, la interfaz indica que las respuestas son orientación de Travelia.

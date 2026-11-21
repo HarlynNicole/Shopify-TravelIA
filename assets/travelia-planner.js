@@ -32,7 +32,7 @@ class TraveliaPlanner extends HTMLElement {
     this.bindForm(engine, signal);
   }
 
-  bindForm({ buildItinerary, datedDuration, validateStep }, signal) {
+  bindForm({ buildItinerary, catalog, datedDuration, validateStep }, signal) {
     const form = this.querySelector('form');
     const steps = [...form.querySelectorAll('fieldset')];
     const result = this.querySelector('[data-result]');
@@ -113,7 +113,9 @@ class TraveliaPlanner extends HTMLElement {
           return showError(previousProblem);
         }
       }
-      this.renderResult(buildItinerary(a, today));
+      const itinerary = buildItinerary(a, today);
+      this.renderResult(itinerary);
+      document.dispatchEvent(new CustomEvent('travelia:trip', { detail: itinerary }));
       form.hidden = true;
       intro.hidden = true;
       result.hidden = false;
@@ -123,6 +125,7 @@ class TraveliaPlanner extends HTMLElement {
     back.addEventListener('click', () => showStep(step - 1), { signal });
     this.querySelector('[data-reset]').addEventListener('click', () => {
       form.reset();
+      document.dispatchEvent(new CustomEvent('travelia:trip', { detail: null }));
       result.hidden = true;
       intro.hidden = false;
       form.hidden = false;
@@ -136,6 +139,11 @@ class TraveliaPlanner extends HTMLElement {
         delete result.dataset.printActive;
       }
     }, { signal });
+    const field = form.elements.destination;
+    const other = field.querySelector('option[value="otro"]');
+    for (const [id, data] of Object.entries(catalog)) {
+      if (![...field.options].some((option) => option.value === id)) field.add(new Option(data.name, id), other);
+    }
     const destination = new URLSearchParams(location.search).get('destino');
     if (destination && [...form.elements.destination.options].some(({ value }) => value === destination && value !== 'otro')) {
       form.elements.destinationMode.value = 'elegido';
@@ -155,6 +163,16 @@ class TraveliaPlanner extends HTMLElement {
       photo.alt = plan.name;
     } else {
       photo.removeAttribute('src');
+    }
+    const credit = this.querySelector('[data-photo-credit]');
+    credit.hidden = !plan.credit;
+    credit.replaceChildren();
+    if (plan.credit) {
+      const source = element('a', 'Foto: ' + plan.credit.author);
+      source.href = plan.credit.source;
+      const license = element('a', plan.credit.label);
+      license.href = plan.credit.license;
+      credit.append(source, ' · ', license);
     }
     const duration = `${plan.days} ${plan.days === 1 ? 'día' : 'días'}`;
     const group = `${plan.count} ${plan.count === 1 ? 'viajero' : 'viajeros'}`;

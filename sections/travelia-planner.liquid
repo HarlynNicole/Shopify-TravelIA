@@ -13,18 +13,13 @@
       <progress value="1" max="10" aria-label="Progreso del cuestionario"></progress>
       <fieldset data-step="1">
         <legend tabindex="-1">¿Qué destino te gustaría conocer?</legend>
-        <div class="tp-choices"><label class="tp-choice"><input type="radio" name="destinationMode" value="elegido"><span>Tengo un destino en mente</span></label><label class="tp-choice"><input type="radio" name="destinationMode" value="descubrir"><span>Quiero descubrir nuevos lugares</span></label><label class="tp-choice"><input type="radio" name="destinationMode" value="recomendar"><span>Quiero que me recomienden un destino</span></label></div><div data-conditional="destination" hidden><label class="tp-field">Destino<select name="destination"><option value="">Selecciona una opción</option><option value="colca">Cañón del Colca</option>
-<option value="gocta">Catarata de Gocta</option>
-<option value="kuelap">Kuélap</option>
-<option value="titicaca">Lago Titicaca</option>
-<option value="humantay">Laguna Humantay</option>
-<option value="machupicchu">Machu Picchu</option>
-<option value="vinicunca">Montaña de 7 Colores</option>
-<option value="huacachina">Huacachina</option>
-<option value="otro">Otro destino</option></select></label><div data-conditional="customDestination" hidden><label class="tp-field">Escribe tu destino<input name="customDestination" maxlength="80" type="text"></label></div></div>
+        <div class="tp-choices"><label class="tp-choice"><input type="radio" name="destinationMode" value="elegido"><span>Tengo un destino en mente</span></label><label class="tp-choice"><input type="radio" name="destinationMode" value="descubrir"><span>Quiero descubrir nuevos lugares</span></label><label class="tp-choice"><input type="radio" name="destinationMode" value="recomendar"><span>Quiero que me recomienden un destino</span></label></div><div data-conditional="destination" hidden><label class="tp-field">Destino<select name="destination"><option value="">Selecciona una opción</option><option value="otro">Otro destino</option></select></label><div data-conditional="customDestination" hidden><label class="tp-field">Escribe tu destino<input name="customDestination" maxlength="80" type="text"></label></div></div>
       </fieldset>
       <fieldset data-step="2" hidden>
         <legend tabindex="-1">¿Qué tipo de destino prefieres?</legend>
+        <label class="tp-field">Región natural (opcional)
+          <select name="area"><option value="">Cualquier región</option><option>Costa</option><option>Sierra</option><option>Selva</option></select>
+        </label>
         <p>Puedes seleccionar varias opciones.</p><div class="tp-choices"><label class="tp-choice"><input type="checkbox" name="types" value="naturaleza"><span>Playas y naturaleza</span></label><label class="tp-choice"><input type="checkbox" name="types" value="montaña"><span>Montañas y aventura</span></label><label class="tp-choice"><input type="checkbox" name="types" value="cultura"><span>Cultura e historia</span></label><label class="tp-choice"><input type="checkbox" name="types" value="ciudad"><span>Gastronomía y ciudades</span></label><label class="tp-choice"><input type="checkbox" name="types" value="mixto"><span>Una combinación de varios</span></label></div>
       </fieldset>
       <fieldset data-step="3" hidden>
@@ -82,7 +77,7 @@
         <div class="tp-hero-copy">
           <p class="eyebrow" data-origin></p>
           <h3 data-title tabindex="-1"></h3>
-          <p data-subtitle></p>
+          <p data-subtitle></p><p data-photo-credit class="td-credit" hidden></p>
           <p data-hero-details class="tp-hero-details"></p>
         </div>
       </div>

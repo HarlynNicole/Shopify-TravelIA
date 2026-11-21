@@ -1,0 +1,28 @@
+{% doc %}
+  Muestra el asistente flotante de Travelia.
+{% enddoc %}
+{{ 'travelia-assistant.css' | asset_url | stylesheet_tag }}
+<travelia-assistant class="ta-widget" data-core="{{ 'travelia-assistant-core.js' | asset_url }}" data-endpoint="{{ settings.travelia_assistant_endpoint | escape }}">
+  <button type="button" class="ta-launch" aria-controls="travelia-chat" aria-expanded="false">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 3v4M3 12v4m18-4v4"/><rect x="5" y="7" width="14" height="12" rx="3"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><path d="M9 16h6"/></svg>
+    <span>Asistente TravelIA</span>
+  </button>
+  <section class="ta-panel" id="travelia-chat" aria-labelledby="travelia-chat-title" hidden>
+    <header><div><h2 id="travelia-chat-title">Asistente TravelIA</h2><p data-trip>Guía de viaje</p></div><button type="button" data-close aria-label="Cerrar asistente">×</button></header>
+    <div class="ta-chat" role="log" aria-live="polite" aria-label="Conversación">
+      <p class="ta-message">¡Hola! Soy tu asistente de TravelIA. Puedes preguntarme por actividades, transporte, alojamiento o presupuesto. ¿Qué te gustaría saber?</p>
+    </div>
+    <p data-chat-status class="ta-status" role="status" hidden></p>
+    <div class="ta-prompts" aria-label="Preguntas sugeridas">
+      <button type="button">¿Cuánto costaría mi viaje?</button><button type="button">¿Cómo puedo llegar?</button>
+      <button type="button">¿Qué actividades me recomiendas?</button><button type="button">¿Qué incluye mi itinerario?</button>
+    </div>
+    <form class="ta-form">
+      <label for="travelia-chat-input" class="sr-only">Tu pregunta</label>
+      <input id="travelia-chat-input" name="message" maxlength="600" placeholder="Escribe tu pregunta…" autocomplete="off" required>
+      <button type="submit">Enviar</button>
+    </form>
+    <p class="ta-note" data-note>Orientación de Travelia basada en la guía.</p>
+  </section>
+</travelia-assistant>
+<script type="module" src="{{ 'travelia-assistant.js' | asset_url }}"></script>

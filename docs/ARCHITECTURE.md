@@ -3,4 +3,6 @@
 La base se encuentra en `layout/theme.liquid`. Los grupos de cabecera y pie enmarcan las plantillas JSON. Las secciones usan Liquid y comparten la hoja de estilos de Travelia. El planificador separa el formulario del motor de reglas. Un backend futuro puede usar el mismo contrato de diez respuestas y conservar sus credenciales en el servidor.
 
 
-La tienda aún no tiene una integración con IA. Para incorporarla se requiere un backend HTTPS controlado por Travelia, una clave almacenada en el servidor y un modelo que devuelva itinerarios con un esquema validado. El servidor debe aplicar límites de uso y devolver errores claros. La interfaz puede reutilizar el objeto de resultado que hoy genera `buildItinerary`. Solo identifica resultados como generados por IA cuando una solicitud al backend haya tenido éxito. Shopify conserva la autoridad sobre enlaces, productos, precios y disponibilidad.
+`assets/travelia-destinations.js` contiene la fuente de datos de la guía, el planificador y el asistente. Los bloques de Shopify vinculan fotos de la tienda y productos existentes cuando corresponda. El planificador comparte el resultado con el asistente mediante el evento `travelia:trip`, y lo retira al reiniciar el cuestionario.
+
+El planificador recomienda por reglas. El chat puede consultar un backend para responder con IA usando los datos de la guía y el contexto de la conversación. La orientación y los cálculos de presupuesto funcionan sin el backend.

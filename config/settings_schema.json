@@ -16,5 +16,16 @@
         "label": "Logo"
       }
     ]
+  },
+  {
+    "name": "Asistente TravelIA",
+    "settings": [
+      {
+        "type": "url",
+        "id": "travelia_assistant_endpoint",
+        "label": "URL HTTPS del asistente",
+        "info": "Introduce la URL pública del servicio, sin claves ni tokens."
+      }
+    ]
   }
 ]

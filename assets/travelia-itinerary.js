@@ -1,219 +1,6 @@
-export const catalog = {
-  "colca": {
-    "name": "Cañón del Colca",
-    "region": "Arequipa",
-    "handle": "canon-del-colca",
-    "photo": "https://cdn.shopify.com/s/files/1/0813/5540/7498/files/upload-1795196925143.jpg?v=1795196926",
-    "types": [
-      "naturaleza",
-      "montaña",
-      "cultura"
-    ],
-    "interests": [
-      "trekking",
-      "fotos",
-      "cultura"
-    ],
-    "base": "Chivay",
-    "highlight": "Mirador Cruz del Cóndor",
-    "nearby": "Pueblos del valle",
-    "food": "Mercado de Chivay",
-    "transport": [
-      "bus",
-      "privado"
-    ],
-    "idealDays": 3,
-    "band": 2,
-    "altitude": true
-  },
-  "gocta": {
-    "name": "Catarata de Gocta",
-    "region": "Amazonas",
-    "handle": "catarata-de-gocta",
-    "photo": "https://cdn.shopify.com/s/files/1/0813/5540/7498/files/upload-1795196955735.jpg?v=1795196957",
-    "types": [
-      "naturaleza",
-      "montaña"
-    ],
-    "interests": [
-      "trekking",
-      "fotos"
-    ],
-    "base": "Cocachimba",
-    "highlight": "Sendero a Gocta",
-    "nearby": "Miradores de Cocachimba",
-    "food": "Cocina regional de Amazonas",
-    "transport": [
-      "bus",
-      "privado"
-    ],
-    "idealDays": 3,
-    "band": 2,
-    "altitude": false
-  },
-  "kuelap": {
-    "name": "Kuélap",
-    "region": "Amazonas",
-    "handle": "kuelap",
-    "photo": "https://cdn.shopify.com/s/files/1/0813/5540/7498/files/upload-1795196943233.jpg?v=1795196944",
-    "types": [
-      "cultura",
-      "montaña"
-    ],
-    "interests": [
-      "cultura",
-      "fotos"
-    ],
-    "base": "Nuevo Tingo",
-    "highlight": "Complejo arqueológico de Kuélap",
-    "nearby": "Miradores del valle",
-    "food": "Cocina regional de Amazonas",
-    "transport": [
-      "bus",
-      "privado"
-    ],
-    "idealDays": 3,
-    "band": 2,
-    "altitude": false
-  },
-  "titicaca": {
-    "name": "Lago Titicaca",
-    "region": "Puno",
-    "handle": "lago-titicaca-e-islas-de-los-uros",
-    "photo": "https://cdn.shopify.com/s/files/1/0813/5540/7498/files/upload-1795196937136.jpg?v=1795196938",
-    "types": [
-      "naturaleza",
-      "cultura"
-    ],
-    "interests": [
-      "cultura",
-      "fotos",
-      "familia",
-      "descanso"
-    ],
-    "base": "Puno",
-    "highlight": "Comunidades lacustres del Titicaca",
-    "nearby": "Ribera de Puno",
-    "food": "Mercado de Puno",
-    "transport": [
-      "bus",
-      "tren",
-      "avion"
-    ],
-    "idealDays": 3,
-    "band": 2,
-    "altitude": true
-  },
-  "humantay": {
-    "name": "Laguna Humantay",
-    "region": "Cusco",
-    "handle": "laguna-humantay",
-    "photo": "https://cdn.shopify.com/s/files/1/0813/5540/7498/files/upload-1795196863737.jpg?v=1795196865",
-    "types": [
-      "montaña",
-      "naturaleza"
-    ],
-    "interests": [
-      "trekking",
-      "aventura",
-      "fotos"
-    ],
-    "base": "Cusco",
-    "highlight": "Ruta a la Laguna Humantay",
-    "nearby": "Valles de Cusco",
-    "food": "Mercado de San Pedro",
-    "transport": [
-      "bus",
-      "avion",
-      "privado"
-    ],
-    "idealDays": 3,
-    "band": 3,
-    "altitude": true
-  },
-  "machupicchu": {
-    "name": "Machu Picchu",
-    "region": "Cusco",
-    "handle": "machu-picchu",
-    "photo": "https://cdn.shopify.com/s/files/1/0813/5540/7498/files/upload-1795194974022.jpg?v=1795194975",
-    "types": [
-      "cultura",
-      "montaña"
-    ],
-    "interests": [
-      "cultura",
-      "fotos",
-      "trekking"
-    ],
-    "base": "Cusco",
-    "highlight": "Circuito de Machu Picchu",
-    "nearby": "Valle Sagrado",
-    "food": "Mercado de San Pedro",
-    "transport": [
-      "tren",
-      "avion",
-      "bus"
-    ],
-    "idealDays": 4,
-    "band": 4,
-    "altitude": true
-  },
-  "vinicunca": {
-    "name": "Montaña de 7 Colores",
-    "region": "Cusco",
-    "handle": "montana-de-7-colores",
-    "photo": "https://cdn.shopify.com/s/files/1/0813/5540/7498/files/upload-1795196949485.jpg?v=1795196951",
-    "types": [
-      "montaña",
-      "naturaleza"
-    ],
-    "interests": [
-      "trekking",
-      "aventura",
-      "fotos"
-    ],
-    "base": "Cusco",
-    "highlight": "Ruta a Vinicunca",
-    "nearby": "Miradores de Cusco",
-    "food": "Mercado de San Pedro",
-    "transport": [
-      "bus",
-      "avion",
-      "privado"
-    ],
-    "idealDays": 3,
-    "band": 3,
-    "altitude": true
-  },
-  "huacachina": {
-    "name": "Huacachina",
-    "region": "Ica",
-    "handle": "oasis-de-huacachina",
-    "photo": "https://cdn.shopify.com/s/files/1/0813/5540/7498/files/upload-1795196931052.jpg?v=1795196932",
-    "types": [
-      "naturaleza",
-      "ciudad"
-    ],
-    "interests": [
-      "aventura",
-      "fotos",
-      "descanso",
-      "familia",
-      "comida"
-    ],
-    "base": "Ica",
-    "highlight": "Oasis de Huacachina",
-    "nearby": "Dunas de Ica",
-    "food": "Mercado de Ica",
-    "transport": [
-      "bus",
-      "privado"
-    ],
-    "idealDays": 2,
-    "band": 1,
-    "altitude": false
-  }
-};
+import { catalog as defaultCatalog } from './travelia-destinations.js';
+
+export { catalog } from './travelia-destinations.js';
 
 export const labels = {
   types: { naturaleza: 'Playas y naturaleza', montaña: 'Montañas y aventura', cultura: 'Cultura e historia', ciudad: 'Gastronomía y ciudades', mixto: 'Una combinación de varios' },
@@ -245,7 +32,7 @@ export function datedDuration(start, end) {
   return first && last && last >= first ? (+last - +first) / dayMs + 1 : null;
 }
 
-export function validateStep(step, a, today) {
+export function validateStep(step, a, today, catalog = defaultCatalog) {
   switch (step) {
     case 1:
       if (!['elegido', 'descubrir', 'recomendar'].includes(a.destinationMode)) return 'Elige cómo prefieres encontrar tu destino.';
@@ -307,6 +94,7 @@ function getBudget(a, count) {
 function makeDays(profile, a, count, days, fixed) {
   const base = profile.base;
   const needsAcclimation = profile.altitude;
+  const enoughTime = days >= (profile.minDays ?? 1);
   const options = {
     trekking: ['Caminata de reconocimiento', profile.nearby, 'Consulta senderos habilitados y elige una distancia acorde al grupo.'],
     aventura: ['Actividad de aventura', profile.nearby, 'Consulta opciones guiadas, condiciones y requisitos con un operador local.'],
@@ -323,11 +111,12 @@ function makeDays(profile, a, count, days, fixed) {
     needsAcclimation ? 'Deja el día libre para adaptarte a la altura y prioriza el descanso.' :
       'Organiza la llegada y explora los alrededores a pie si tienes tiempo.']);
   const highlightDay = agenda.length;
-  if (agenda.length < days) agenda.push(['Visita principal', profile.highlight,
+  if (enoughTime && agenda.length < days) agenda.push(['Visita principal', profile.highlight,
     profile.custom ? 'Elige un punto de interés de la zona y confirma su acceso con fuentes locales.' :
       'Confirma el acceso, disponibilidad y traslado antes de programar la visita.']);
 
-  const queue = a.activities.map((key) => options[key]);
+  const queue = enoughTime ? a.activities.map((key) => options[key]) : [];
+  if (!enoughTime && !agenda.length) agenda.push(['Orientación en destino', base, 'Confirma con un operador cuánto tiempo requiere el circuito.']);
   for (let index = 0; index < days; index++) {
     const entry = agenda[index] ?? queue.shift() ?? (index === days - 1 ?
       ['Cierre y regreso', base, 'Deja margen para el traslado de regreso.'] :
@@ -349,9 +138,9 @@ function makeDays(profile, a, count, days, fixed) {
   return agenda;
 }
 
-export function buildItinerary(a, today) {
+export function buildItinerary(a, today, catalog = defaultCatalog) {
   for (let step = 1; step <= 10; step++) {
-    const problem = validateStep(step, a, today);
+    const problem = validateStep(step, a, today, catalog);
     if (problem) throw new RangeError(problem);
   }
   const days = a.dateMode === 'fija' ? datedDuration(a.startDate, a.endDate) : +a.duration;
@@ -359,7 +148,11 @@ export function buildItinerary(a, today) {
   const budget = getBudget(a, count);
   let id = a.destinationMode === 'elegido' ? a.destination : null;
   if (id === null) {
-    id = Object.entries(catalog).sort(([, left], [, right]) => score(right, a, days, budget.ceiling) - score(left, a, days, budget.ceiling))[0][0];
+    const candidates = Object.entries(catalog).filter(([, destination]) =>
+      destination.minDays <= days && (destination.band < 4 || !destination.visit || budget.ceiling >= 1000));
+    const preferred = candidates.filter(([, destination]) => !a.area || destination.area === a.area);
+    id = (preferred.length ? preferred : candidates)
+      .sort(([, left], [, right]) => score(right, a, days, budget.ceiling) - score(left, a, days, budget.ceiling))[0][0];
   }
   const custom = id === 'otro';
   const name = custom ? a.customDestination.trim() : catalog[id].name;
@@ -368,10 +161,13 @@ export function buildItinerary(a, today) {
   const tips = ['Antes de reservar, verifica tarifas, traslados, accesos y condiciones.'];
   if (a.transport !== 'flexible') tips.push('Comprueba si hay rutas en el medio de transporte elegido. Puede hacer falta combinar varios medios.');
   if (+a.children > 0) tips.push('Confirma las restricciones de edad y consulta tarifas infantiles con cada proveedor.');
+  if (profile.advice) tips.push(profile.advice);
+  if (days < (profile.minDays ?? 1)) tips.push('El tiempo elegido puede quedarse corto. La propuesta deja fuera el circuito principal hasta que confirmes una duración viable.');
+  if (a.area && profile.area && profile.area !== a.area && a.destinationMode !== 'elegido') tips.push('No encontramos una opción de la zona preferida para el tiempo y presupuesto indicados. Esta sugerencia pertenece a otra zona.');
   if (profile.altitude) tips.push('Prioriza la aclimatación y adapta el esfuerzo a las condiciones del grupo.');
-  if (a.types.includes('naturaleza') && a.destinationMode !== 'elegido') tips.push('La recomendación compara ocho destinos del catálogo peruano. El tipo naturaleza incluye paisajes de costa, sierra y selva.');
+  if (a.types.includes('naturaleza') && a.destinationMode !== 'elegido') tips.push('La recomendación compara catorce destinos del catálogo peruano. El tipo naturaleza incluye paisajes de costa, sierra y selva.');
   return {
-    id, name, region: profile.region, photo: profile.photo, handle: profile.handle, days, count,
+    id, name, region: profile.region, photo: profile.photo, credit: profile.credit, handle: profile.handle, days, count,
     adults: +a.adults, children: +a.children, budget, itinerary, tips,
     companion: labels.groups[a.group], stay: labels.stays[a.stay], transport: labels.transport[a.transport],
     pace: labels.pace[a.pace], activities: a.activities.map((key) => labels.activities[key]),

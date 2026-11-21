@@ -1,0 +1,12 @@
+travelia-directory { display: block; }
+.td-filters { margin-block: 1rem; }
+.td-filters [aria-pressed="true"] { background: #10334c; color: white; }
+.td-grid { align-items: start; }
+.td-card { overflow: hidden; border-radius: .55rem; background: #fcfaf4; }
+.td-card .destination-copy { display: grid; align-content: start; gap: .65rem; }
+.td-card .destination-copy > :is(p, h3) { margin: 0; }
+.td-card details { border-top: 1px solid #d5dfe2; padding-top: .65rem; }
+.td-card summary { cursor: pointer; font-weight: 650; }
+.td-card details p { margin: .45rem 0 0; }
+.td-actions { display: grid; gap: .45rem; font-weight: 700; }
+.td-credit { color: #52616b; }
