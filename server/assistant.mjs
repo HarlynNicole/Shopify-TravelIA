@@ -1,4 +1,5 @@
 import http from 'node:http';
+import { randomUUID } from 'node:crypto';
 import { GoogleGenAI } from '@google/genai';
 import { pathToFileURL } from 'node:url';
 import { catalog } from '../assets/travelia-destinations.js';
@@ -9,9 +10,10 @@ const quotaMessage = 'El asistente alcanzó su límite de consultas. Inténtalo 
 const unavailableMessage = 'Gemini no está disponible en este momento. Inténtalo más tarde.';
 const budgetInstructions = 'Explica qué falta cotizar. No escribas importes ni cifras en esta respuesta; el servidor adjuntará el cálculo verificado.';
 class ServiceError extends Error {
-  constructor(status, message) {
+  constructor(status, message, code = 'assistant_unavailable') {
     super(message);
     this.status = status;
+    this.code = code;
   }
 }
 const text = (value, size) => typeof value === 'string' ? value.slice(0, size) : '';
@@ -41,7 +43,7 @@ function context(value) {
 
 function groupScenario(question, trip) {
   const lower = question.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
-  const count = lower.match(/\b(?:con|para|somos)\s+(\d{1,2}|un[ao]?|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez)\s+(?:personas?|viajer[oa]s?|adultos?)\b/)?.[1];
+  const count = lower.match(/\b(?:con|para|somos|viajamos|viajaremos|viajan)\s+(\d{1,2}|un[ao]?|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez)\s+(?:personas?|viajer[oa]s?|adultos?)\b/)?.[1];
   const words = { un: 1, una: 1, uno: 1, dos: 2, tres: 3, cuatro: 4, cinco: 5, seis: 6, siete: 7, ocho: 8, nueve: 9, diez: 10 };
   const travelers = words[count] ?? Number(count);
   if (!Number.isInteger(travelers) || travelers < 1 || travelers > 50 || travelers === trip?.count) return null;
@@ -57,7 +59,7 @@ export async function reply(body, { client, model, authorize = () => {}, onQuota
   if (question?.role !== 'user') throw new ServiceError(400, 'Es necesaria una pregunta.');
   const trip = context(body.trip);
   const previousTopic = body.topic === 'budget' ? 'budget' : undefined;
-  if (!client || !model) throw new ServiceError(503, 'El servicio de Gemini todavía no está configurado en el servidor.');
+  if (!client || !model) throw new ServiceError(503, 'El servicio de Gemini todavía no está configurado en el servidor.', 'gemini_configuration');
   const pricing = isBudgetQuestion(question.content, previousTopic);
   const travelers = pricing ? groupScenario(question.content, trip) : null;
   const scenario = travelers ? { ...trip, count: travelers, budget: null } : trip;
@@ -73,6 +75,7 @@ export async function reply(body, { client, model, authorize = () => {}, onQuota
   }));
   authorize();
   let response;
+  const started = Date.now();
   try {
     response = await client.models.generateContent({
       model,
@@ -85,14 +88,25 @@ export async function reply(body, { client, model, authorize = () => {}, onQuota
       },
     });
   } catch (error) {
-    if (Number(error?.status) === 429) {
+    const status = Number(error?.status);
+    const durationMs = Date.now() - started;
+    let failure;
+    if (status === 429) {
       onQuota();
-      throw new ServiceError(429, quotaMessage);
+      failure = new ServiceError(429, quotaMessage, 'gemini_quota');
+    } else if ([400, 401, 403, 404].includes(status)) {
+      failure = new ServiceError(503, 'Gemini rechazó la configuración del servicio. Si vuelve a ocurrir, avisa a Travelia.', 'gemini_configuration');
+    } else if (status === 408 || status === 504 || error?.name === 'TimeoutError' || error?.name === 'AbortError' || durationMs >= 25000) {
+      failure = new ServiceError(504, 'Gemini tardó más de lo esperado. Vuelve a intentar en un momento.', 'gemini_timeout');
+    } else {
+      failure = new ServiceError(503, unavailableMessage, 'gemini_unavailable');
     }
-    throw new ServiceError(503, unavailableMessage);
+    failure.providerStatus = Number.isInteger(status) ? status : null;
+    failure.durationMs = durationMs;
+    throw failure;
   }
   let answer = text(response.text, 2400).trim();
-  if (!answer) throw new ServiceError(503, 'Gemini no devolvió una respuesta. Prueba reformulando tu pregunta.');
+  if (!answer) throw new ServiceError(502, 'Gemini no devolvió texto. Prueba reformulando tu pregunta.', 'gemini_empty');
   let generated = true;
   if (pricing && /[0-9]|\bs\/|\bpen\b|\$|\beuros?\b/i.test(answer)) {
     answer = '';
@@ -106,7 +120,7 @@ export async function reply(body, { client, model, authorize = () => {}, onQuota
 }
 
 export function createAssistantServer({ key, model, origins, maxPerMinute = 5, maxPerDay = 25, client }) {
-  client ??= key ? new GoogleGenAI({ apiKey: key, httpOptions: { timeout: 12000, retryOptions: { attempts: 1 } } }) : null;
+  client ??= key ? new GoogleGenAI({ apiKey: key, httpOptions: { timeout: 25000, retryOptions: { attempts: 1 } } }) : null;
   let minute, day, minuteUsed = 0, dayUsed = 0;
   let providerCooldown = 0;
   const authorize = () => {
@@ -116,7 +130,7 @@ export function createAssistantServer({ key, model, origins, maxPerMinute = 5, m
     if (minute !== currentMinute) { minute = currentMinute; minuteUsed = 0; }
     if (day !== currentDay) { day = currentDay; dayUsed = 0; }
     if (now < providerCooldown || minuteUsed >= maxPerMinute || dayUsed >= maxPerDay) {
-      throw new ServiceError(429, quotaMessage);
+      throw new ServiceError(429, quotaMessage, 'assistant_quota');
     }
     minuteUsed++;
     dayUsed++;
@@ -153,7 +167,14 @@ export function createAssistantServer({ key, model, origins, maxPerMinute = 5, m
       send(200, await reply(body, { client, model, authorize, onQuota: () => { providerCooldown = Date.now() + 60000; } }));
     } catch (error) {
       if (error instanceof ServiceError) {
-        return send(error.status, { error: error.message });
+        const requestId = randomUUID();
+        if (error.code.startsWith('gemini_')) {
+          console.warn(JSON.stringify({
+            event: 'travelia_assistant_error', requestId, code: error.code,
+            providerStatus: error.providerStatus ?? null, durationMs: error.durationMs ?? null,
+          }));
+        }
+        return send(error.status, { error: error.message, code: error.code, requestId });
       }
       if (error instanceof SyntaxError) return send(400, { error: 'Solicitud inválida.' });
       send(503, { error: unavailableMessage });

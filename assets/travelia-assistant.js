@@ -94,8 +94,15 @@ class TraveliaAssistant extends HTMLElement {
               if (revision === this.#revision) add('assistant', 'El servidor del asistente puede estar iniciando. Espera un momento y vuelve a enviar tu pregunta.');
               return;
             }
-            if (!response.ok) throw new Error('Servicio no disponible');
             const answer = await response.json();
+            if (!response.ok) {
+              const verified = ['gemini_configuration', 'gemini_timeout', 'gemini_unavailable', 'gemini_empty'].includes(answer?.code);
+              const reference = typeof answer?.requestId === 'string' && /^[a-f0-9-]{36}$/.test(answer.requestId) ? ' Referencia: ' + answer.requestId : '';
+              if (!signal.aborted && revision === this.#revision) {
+                add('assistant', (verified && typeof answer.error === 'string' ? answer.error.slice(0, 240) : 'Gemini no está disponible en este momento. Inténtalo más tarde.') + reference);
+              }
+              return;
+            }
             if (typeof answer.text !== 'string' || !answer.text.trim()) throw new Error('Respuesta inválida');
             reply = { text: answer.text.slice(0, 6000), topic: answer.topic };
             if (answer.source !== 'ai' || answer.provider !== 'gemini') throw new Error('Respuesta de Gemini no verificable');
@@ -123,6 +130,7 @@ class TraveliaAssistant extends HTMLElement {
       } catch {
         if (!signal.aborted && revision === this.#revision) add('assistant', 'No pudimos preparar una respuesta. Vuelve a intentarlo.');
       } finally {
+        if (revision === this.#revision && messages.at(-1)?.role === 'user') messages.pop();
         if (!signal.aborted) {
           busy = send.disabled = false;
           prompts.forEach((button) => { button.disabled = false; });
