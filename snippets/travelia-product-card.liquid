@@ -4,7 +4,7 @@
   @param {boolean} [quick_add] - Activa el formulario rápido para experiencias de variante única.
 {% enddoc %}
 {%- capture region -%}{%- render 'travelia-product-region', item: item -%}{%- endcapture -%}
-<article class="destination tc-card" data-experience data-region="{{ region | escape }}" data-handle="{{ item.handle | escape }}" data-product-type="{{ item.type | escape }}">
+<article class="destination tc-card" data-experience data-region="{{ region | escape }}" data-handle="{{ item.handle | escape }}" data-product-type="{{ item.type | escape }}" data-price="{{ item.price }}">
   {% if item.featured_image != blank %}
     <a href="{{ item.url }}" aria-label="Ver {{ item.title | escape }}" class="destination-photo">
       {{ item.featured_image | image_url: width: 800 | image_tag: widths: '320, 480, 640, 800', sizes: '(min-width: 1000px) 25vw, (min-width: 600px) 50vw, 100vw', loading: 'lazy' }}
@@ -13,6 +13,7 @@
   <div class="destination-copy">
     {% if region != blank %}<p class="eyebrow">{{ region | escape }}</p>{% endif %}
     <h3><a href="{{ item.url }}">{{ item.title | escape }}</a></h3>
+    <p class="tc-type" data-experience-type{% if item.type == blank %} hidden{% endif %}>{{ item.type | escape }}</p>
     {% if item.description != blank %}<p>{{ item.description | strip_html | truncatewords: 23 | escape }}</p>{% endif %}
     <p class="tc-price">
       {% if item.tags contains 'Simulación académica' %}<span>Precio referencial</span>{% endif %}

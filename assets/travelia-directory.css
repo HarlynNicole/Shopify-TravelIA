@@ -10,3 +10,14 @@ travelia-directory { display: block; }
 .td-card details p { margin: .45rem 0 0; }
 .td-actions { display: grid; gap: .45rem; font-weight: 700; }
 .td-credit { color: #52616b; }
+
+.td-intro {
+  display: flex;
+  align-items: end;
+  gap: 1.4rem 2rem;
+  padding: clamp(1.4rem, 5vw, 3rem);
+  background: #fcfaf4;
+  border-block-start: 4px solid #ffc527;
+}
+.td-intro h2 { margin: 0 0 .6rem; max-width: 20ch; }
+.td-intro-lede { margin: 0; max-width: 53ch; color: #52616b; font-size: clamp(1rem, 2vw, 1.18rem); }

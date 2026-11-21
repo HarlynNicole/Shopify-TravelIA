@@ -1,17 +1,27 @@
-const types = {
-  naturaleza: 'Naturaleza', montaña: 'Montaña y aventura', cultura: 'Cultura e historia', ciudad: 'Gastronomía y ciudad',
-};
-
 function catalogByHandle(url) {
   return import(url).then(({ catalog }) => new Map(
     Object.values(catalog).filter(({ handle }) => handle).map((destination) => [destination.handle, destination]),
   )).catch(() => new Map());
 }
 
-function addOptions(select, values) {
-  for (const value of [...new Set(values)].filter(Boolean).sort((a, b) => a.localeCompare(b, 'es'))) {
-    select.add(new Option(value, value));
+const normalize = (text) => text.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '').trim();
+const regionByDepartment = {
+  amazonas: 'Selva', ancash: 'Sierra', arequipa: 'Sierra', cusco: 'Sierra', ica: 'Costa',
+  'la libertad': 'Costa', lima: 'Costa', loreto: 'Selva', 'madre de dios': 'Selva', puno: 'Sierra', tumbes: 'Costa',
+};
+const filterTypes = ['Aventura', 'Naturaleza', 'Cultura e historia', 'Relajación'];
+
+function categories(profile, productType) {
+  if (!profile) {
+    const match = filterTypes.filter((type) => normalize(productType).includes(normalize(type)));
+    return match.length ? match : [productType].filter(Boolean);
   }
+  const groups = new Set();
+  if (profile.types.includes('montaña') || profile.interests.some((interest) => ['aventura', 'trekking'].includes(interest))) groups.add('Aventura');
+  if (profile.types.includes('naturaleza')) groups.add('Naturaleza');
+  if (profile.types.includes('cultura')) groups.add('Cultura e historia');
+  if (profile.interests.includes('descanso')) groups.add('Relajación');
+  return [...groups];
 }
 
 class TraveliaExperiences extends HTMLElement {
@@ -27,28 +37,50 @@ class TraveliaExperiences extends HTMLElement {
     if (signal.aborted) return;
     const region = this.querySelector('[data-region-filter]');
     const type = this.querySelector('[data-type-filter]');
+    const search = this.querySelector('[data-search]');
+    const budget = this.querySelector('[data-budget-filter]');
+    const clear = this.querySelector('[data-clear-filters]');
     const result = this.querySelector('[data-filter-result]');
     const data = cards.map((card) => {
       const profile = catalog.get(card.dataset.handle);
-      return { card, region: card.dataset.region, types: profile?.types.map((key) => types[key]) ?? [card.dataset.productType] };
+      const department = card.dataset.region ?? '';
+      const types = categories(profile, card.dataset.productType ?? '');
+      const label = card.querySelector('[data-experience-type]');
+      if (label && types.length) {
+        label.textContent = types.join(' · ');
+        label.hidden = false;
+      }
+      return {
+        card,
+        region: profile?.area ?? regionByDepartment[normalize(department)] ?? '',
+        types,
+        price: Number(card.dataset.price),
+        searchable: normalize([card.querySelector('h3')?.textContent, profile?.name, department].filter(Boolean).join(' ')),
+      };
     });
-    region.options.length = type.options.length = 1;
-    addOptions(region, data.map((item) => item.region));
-    addOptions(type, data.flatMap((item) => item.types));
-    region.closest('label').hidden = region.options.length < 2;
-    type.closest('label').hidden = type.options.length < 3;
-    if (region.closest('label').hidden && type.closest('label').hidden) return;
 
     const filter = () => {
       let shown = 0;
+      const terms = normalize(search.value).split(/\s+/).filter(Boolean);
+      const maximum = budget.value !== '' && budget.validity.valid ? Math.round(budget.valueAsNumber * 100) : Infinity;
       for (const item of data) {
-        item.card.hidden = Boolean((region.value && item.region !== region.value) || (type.value && !item.types.includes(type.value)));
+        item.card.hidden = Boolean(
+          (region.value && item.region !== region.value) ||
+          (type.value && !item.types.includes(type.value)) ||
+          (Number.isFinite(maximum) && !(item.price <= maximum)) ||
+          terms.some((term) => !item.searchable.includes(term))
+        );
         if (!item.card.hidden) shown++;
       }
       result.textContent = shown ? shown + (shown === 1 ? ' experiencia' : ' experiencias') : 'Ninguna experiencia coincide con los filtros.';
     };
-    region.addEventListener('change', filter, { signal });
-    type.addEventListener('change', filter, { signal });
+    for (const field of [region, type]) field.addEventListener('change', filter, { signal });
+    for (const field of [search, budget]) field.addEventListener('input', filter, { signal });
+    clear.addEventListener('click', () => {
+      for (const field of [search, budget, region, type]) field.value = '';
+      search.focus();
+      filter();
+    }, { signal });
     filter();
     this.querySelector('[data-filters]').hidden = false;
   }

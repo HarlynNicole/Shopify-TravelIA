@@ -1,9 +1,13 @@
 {%- capture experiences_url -%}{%- render 'travelia-experiences-url' -%}{%- endcapture -%}
 {{ 'travelia-directory.css' | asset_url | stylesheet_tag }}
 <section id="destinos" class="wrap section-space">
-  <div class="section-heading">
-    <div><p class="eyebrow">Guía de destinos</p><h2>Catorce lugares para descubrir</h2></div>
-    <a href="{{ experiences_url }}">Ver experiencias de la tienda</a>
+  <div class="section-heading td-intro">
+    <div>
+      <p class="eyebrow">Guía de destinos</p>
+      <h2>Descubre el Perú a tu manera 🇵🇪</h2>
+      <p class="td-intro-lede">Desde paisajes andinos hasta oasis y selvas increíbles. Encuentra ese lugar que hará especial tu próxima aventura.</p>
+    </div>
+    <a class="button button-outline" href="{{ experiences_url }}">Ver experiencias de la tienda</a>
   </div>
   <travelia-directory data-catalog="{{ 'travelia-destinations.js' | asset_url }}" data-home="{{ routes.root_url }}">
     <div class="actions td-filters" role="group" aria-label="Filtrar destinos por región natural" hidden>
@@ -12,7 +16,7 @@
       <button class="button button-outline" type="button" data-area="Sierra" aria-pressed="false">Sierra</button>
       <button class="button button-outline" type="button" data-area="Selva" aria-pressed="false">Selva</button>
     </div>
-    <p data-count role="status"></p>
+    <p class="sr-only" data-count role="status"></p>
     <ul class="destination-grid td-grid" data-cards role="list"></ul>
     <noscript>Activa JavaScript para consultar la guía de destinos.</noscript>
     <div hidden>

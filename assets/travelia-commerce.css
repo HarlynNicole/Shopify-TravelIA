@@ -17,3 +17,15 @@
 .tc-details > dd { margin: .2rem 0 .6rem; }
 .tc-reference { color: #52616b; font-size: .9rem; }
 @media (max-width: 600px) { .tc-filters label, .tc-filters select { width: 100%; } }
+
+.tc-intro { background: #10334c; color: #fff; padding: clamp(1.4rem, 5vw, 3.5rem); border-bottom: 4px solid #ffc527; }
+.tc-intro h1 { max-width: 20ch; font-size: clamp(2.3rem, 6vw, 4.75rem); }
+.tc-intro .eyebrow { color: #ffc527; }
+.tc-intro p:last-child { margin: 0; max-width: 58ch; font-size: clamp(1rem, 2vw, 1.2rem); }
+.tc-filters { margin-top: 1.25rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr)); }
+.tc-filters select, .tc-filters input { display: block; width: 100%; min-width: 0; min-height: 44px; padding: .4rem; color: #10334c; background: white; border: 1px solid #52616b; font: inherit; }
+.tc-filters [data-filter-result] { grid-column: 1 / -1; }
+.tc-type { font-size: .87rem; font-weight: 650; }
+.tc-outro { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 2.5rem; padding: clamp(1.2rem, 4vw, 2.5rem); background: #fcfaf4; border: 1px solid #d5dfe2; }
+.tc-outro h2 { font-size: clamp(1.7rem, 4vw, 2.65rem); margin-bottom: .4rem; }
+.tc-outro p { margin: 0; max-width: 54ch; color: #52616b; }

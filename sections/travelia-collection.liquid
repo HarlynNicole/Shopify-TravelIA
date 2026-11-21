@@ -1,13 +1,25 @@
 {{ 'travelia-commerce.css' | asset_url | stylesheet_tag }}
 <section class="wrap section-space">
-  <p class="eyebrow">Experiencias en Perú</p>
-  <h1>{% if collection.handle == 'all' %}Explora experiencias{% else %}{{ collection.title | escape }}{% endif %}</h1>
+  <header class="tc-intro">
+    <p class="eyebrow">Experiencias Travelia</p>
+    <h1>Vive experiencias únicas en el Perú 🇵🇪</h1>
+    <p>Descubre lugares increíbles, encuentra tu próxima aventura y elige la experiencia que más se adapte a ti.</p>
+  </header>
   {% if collection.description != blank %}<div class="rte">{{ collection.description }}</div>{% endif %}
   {% paginate collection.products by 16 %}
     <travelia-experiences data-catalog="{{ 'travelia-destinations.js' | asset_url }}">
     <div class="tc-filters" hidden data-filters>
-      <label>Región <select data-region-filter><option value="">Todas las regiones</option></select></label>
-      <label>Tipo de experiencia <select data-type-filter><option value="">Todos los tipos</option></select></label>
+      <label>Buscar destino <input type="search" data-search placeholder="Ej. Machu Picchu"></label>
+      <label>Región
+        <select data-region-filter><option value="">Todas</option><option>Costa</option><option>Sierra</option><option>Selva</option></select>
+      </label>
+      <label>Tipo de experiencia
+        <select data-type-filter><option value="">Todos</option><option>Aventura</option><option>Naturaleza</option><option>Cultura e historia</option><option>Relajación</option></select>
+      </label>
+      <label>Presupuesto máximo ({{ cart.currency.iso_code | escape }})
+        <input type="number" data-budget-filter min="0" step="0.01" inputmode="decimal" placeholder="Sin límite">
+      </label>
+      <button class="button button-outline" type="button" data-clear-filters>Limpiar filtros</button>
       <p role="status" data-filter-result></p>
     </div>
     {% if paginate.pages > 1 %}<p>Los filtros se aplican a las experiencias de esta página.</p>{% endif %}
@@ -21,7 +33,13 @@
     </travelia-experiences>
     {% if paginate.pages > 1 %}<nav class="pagination" aria-label="Páginas del catálogo">{{ paginate | default_pagination }}</nav>{% endif %}
   {% endpaginate %}
-  <p><a href="{{ routes.root_url }}#destinos">Explorar la guía de destinos</a></p>
+  <div class="tc-outro">
+    <div>
+      <h2>¿Todavía no sabes a dónde viajar?</h2>
+      <p>Deja que TravelIA te ayude a encontrar una aventura que se adapte a tus gustos, fechas y presupuesto.</p>
+    </div>
+    <a class="button" href="{{ routes.root_url }}#planifica">Planifica tu viaje</a>
+  </div>
 </section>
 <script type="module" src="{{ 'travelia-commerce.js' | asset_url }}"></script>
 {% schema %}
