@@ -72,10 +72,9 @@ class TraveliaAssistant extends HTMLElement {
       const conversation = messages.slice(-16);
       busy = send.disabled = true;
       prompts.forEach((button) => { button.disabled = true; });
-      status.textContent = 'Preparando respuesta…';
+      status.textContent = endpoint ? 'Consultando a Gemini… El primer mensaje puede tardar alrededor de un minuto.' : 'Preparando respuesta…';
       status.hidden = false;
       try {
-        core ??= await import(this.dataset.core);
         let reply;
         let source = 'Orientación de Travelia';
         if (endpoint) {
@@ -84,19 +83,28 @@ class TraveliaAssistant extends HTMLElement {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ messages: conversation, trip, topic }),
-              signal: AbortSignal.any([signal, AbortSignal.timeout(18000)]),
+              signal: AbortSignal.any([signal, AbortSignal.timeout(85000)]),
             });
+            if (response.status === 429) {
+              if (!signal.aborted && revision === this.#revision) add('assistant', 'El asistente alcanzó su límite de consultas. Inténtalo más tarde.');
+              return;
+            }
             if (!response.ok) throw new Error('Servicio no disponible');
             const answer = await response.json();
             if (typeof answer.text !== 'string' || !answer.text.trim()) throw new Error('Respuesta inválida');
             reply = { text: answer.text.slice(0, 6000), topic: answer.topic };
-            if (answer.source === 'ai') source = 'Respuesta de IA';
+            if (answer.source !== 'ai' || answer.provider !== 'gemini') throw new Error('Respuesta de Gemini no verificable');
+            source = answer.generated === false ? 'Cálculo de Travelia · Gemini consultado' : 'Respuesta de Gemini · ' + String(answer.model ?? '').slice(0, 80);
           } catch {
             if (signal.aborted) return;
-            source = 'Orientación de Travelia · servicio de IA no disponible';
+            if (revision === this.#revision) add('assistant', 'Gemini no está disponible en este momento. Inténtalo más tarde.');
+            return;
           }
         }
-        reply ??= core.localAdvice(question, trip, conversation, topic);
+        if (!reply) {
+          core ??= await import(this.dataset.core);
+          reply = core.localAdvice(question, trip, conversation, topic);
+        }
         if (signal.aborted || revision !== this.#revision) return;
         topic = reply.topic;
         add('assistant', reply.text, source);

@@ -1,3 +1,4 @@
 .shopify/
 .env
 .env.*
+node_modules/
