@@ -1,0 +1,130 @@
+<section class="travelia-planner" aria-labelledby="travelia-title-{{ section.id }}">
+  <h2 id="travelia-title-{{ section.id }}">Planifica tu viaje</h2>
+  <p>Cuéntanos cómo quieres viajar y obtén una propuesta de ruta por el Perú.</p>
+  <travelia-planner data-engine="{{ 'travelia-itinerary.js' | asset_url }}">
+    <noscript>Activa JavaScript para usar el planificador.</noscript>
+    <form hidden>
+      <p data-progress role="status"></p>
+      <fieldset>
+        <legend>¿Cuál es tu destino ideal?</legend>
+        <label>Destino
+          <select name="destination" required>
+            <option value="">Elige un destino</option>
+            <option value="colca">Cañón del Colca</option>
+            <option value="gocta">Catarata de Gocta</option>
+            <option value="kuelap">Kuélap</option>
+            <option value="titicaca">Lago Titicaca</option>
+            <option value="humantay">Laguna Humantay</option>
+            <option value="machupicchu">Machu Picchu</option>
+            <option value="vinicunca">Montaña de 7 Colores</option>
+            <option value="huacachina">Huacachina</option>
+          </select>
+        </label>
+      </fieldset>
+      <fieldset hidden disabled>
+        <legend>¿Cuándo te gustaría viajar?</legend>
+        <label>Fecha de inicio <input type="date" name="date" required></label>
+      </fieldset>
+      <fieldset hidden disabled>
+        <legend>¿Cuántos días durará tu viaje?</legend>
+        <label>Días (1 a 14) <input type="number" name="duration" min="1" max="14" required></label>
+      </fieldset>
+      <fieldset hidden disabled>
+        <legend>¿Con quién viajarás?</legend>
+        <label>Compañía
+          <select name="group" required>
+            <option value="">Elige una opción</option>
+            <option value="solo">Por mi cuenta</option>
+            <option value="pareja">En pareja</option>
+            <option value="amigos">Con amigos</option>
+            <option value="familia">En familia</option>
+          </select>
+        </label>
+      </fieldset>
+      <fieldset hidden disabled>
+        <legend>¿Qué tipo de actividades prefieres?</legend>
+        <label>Interés principal
+          <select name="interest" required>
+            <option value="">Elige una opción</option>
+            <option value="cultura">Cultura</option>
+            <option value="naturaleza">Naturaleza</option>
+            <option value="aventura">Aventura</option>
+            <option value="gastronomia">Gastronomía</option>
+          </select>
+        </label>
+      </fieldset>
+      <fieldset hidden disabled>
+        <legend>¿Cuál es tu presupuesto aproximado por persona?</legend>
+        <label>Presupuesto en soles <input type="number" name="budget" min="1" max="100000" step="0.01" required></label>
+      </fieldset>
+      <p data-error role="alert" hidden></p>
+      <div class="travelia-planner__actions">
+        <button type="button" data-back hidden>Volver</button>
+        <button type="submit" data-next>Continuar</button>
+      </div>
+    </form>
+    <div data-result hidden>
+      <h3 tabindex="-1" data-result-title></h3>
+      <p data-summary></p>
+      <p>Propuesta orientativa. El presupuesto se reparte por día y los precios reales dependen de los proveedores.</p>
+      <h4>Tu itinerario</h4>
+      <ol data-days></ol>
+      <h4>Antes de viajar</h4>
+      <ul data-tips></ul>
+      <div class="travelia-planner__actions">
+        <a href="{{ section.settings.experiences_url | default: routes.all_products_collection_url }}">Consultar experiencias</a>
+        <button type="button" data-reset>Nueva planificación</button>
+      </div>
+    </div>
+  </travelia-planner>
+</section>
+<script type="module" src="{{ 'travelia-planner.js' | asset_url }}"></script>
+{% stylesheet %}
+  .travelia-planner {
+    max-width: 55rem;
+    margin-inline: auto;
+    padding: clamp(2rem, 6vw, 5rem) max(1rem, 4vw);
+    color: #10334c;
+  }
+  .travelia-planner travelia-planner { display: block; }
+  .travelia-planner form, .travelia-planner [data-result] {
+    margin-top: 1.5rem;
+    padding: clamp(1rem, 4vw, 2rem);
+    background: #f5f8f8;
+    border: 1px solid #c1ced1;
+  }
+  .travelia-planner [hidden] { display: none; }
+  .travelia-planner fieldset { border: 0; padding: 0; min-width: 0; margin: 0; }
+  .travelia-planner legend { font-size: 1.25rem; font-weight: 700; margin-block: 0.75rem; }
+  .travelia-planner label, .travelia-planner input, .travelia-planner select { display: block; }
+  .travelia-planner input, .travelia-planner select {
+    width: 100%;
+    min-height: 44px;
+    padding: 0.5rem;
+    margin-top: 0.375rem;
+    color: #10334c;
+    background: #fff;
+    border: 1px solid #52616b;
+  }
+  .travelia-planner__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
+  .travelia-planner__actions button, .travelia-planner__actions a {
+    min-height: 44px;
+    padding: 0.6rem 1rem;
+    border: 1px solid #10334c;
+    color: #10334c;
+    background: #fff;
+    font: inherit;
+    cursor: pointer;
+  }
+  .travelia-planner__actions [type="submit"], .travelia-planner__actions a { background: #ffc527; }
+  .travelia-planner :focus-visible { outline: 3px solid #10334c; outline-offset: 3px; }
+{% endstylesheet %}
+{% schema %}
+{
+  "name": "Planificador Travelia",
+  "settings": [
+    { "type": "url", "id": "experiences_url", "label": "Enlace de experiencias" }
+  ],
+  "presets": [{ "name": "Planificador Travelia" }]
+}
+{% endschema %}

@@ -1,0 +1,6 @@
+{
+  "sections": {
+    "planner": { "type": "travelia-planner", "settings": {} }
+  },
+  "order": ["planner"]
+}
