@@ -3,9 +3,8 @@
 {% enddoc %}
 {{ 'travelia-assistant.css' | asset_url | stylesheet_tag }}
 <travelia-assistant class="ta-widget" data-core="{{ 'travelia-assistant-core.js' | asset_url }}" data-endpoint="{{ settings.travelia_assistant_endpoint | escape }}">
-  <button type="button" class="ta-launch" aria-controls="travelia-chat" aria-expanded="false">
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 3v4M3 12v4m18-4v4"/><rect x="5" y="7" width="14" height="12" rx="3"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><path d="M9 16h6"/></svg>
-    <span>Asistente TravelIA</span>
+  <button type="button" class="ta-launch" aria-label="Abrir Asistente Virtual de TravelIA" aria-controls="travelia-chat" aria-expanded="false">
+    <img src="{{ 'travelia-assistant-llama.webp' | asset_url }}" width="602" height="401" alt="" draggable="false">
   </button>
   <section class="ta-panel" id="travelia-chat" aria-labelledby="travelia-chat-title" hidden>
     <header><div><h2 id="travelia-chat-title">Asistente TravelIA</h2><p class="ta-tagline">Tu asesor de viajes personal ✈️</p><p data-trip>Guía de viaje</p></div><button type="button" data-close aria-label="Cerrar asistente">×</button></header>

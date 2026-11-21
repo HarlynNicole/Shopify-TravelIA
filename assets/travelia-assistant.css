@@ -1,7 +1,38 @@
-.ta-widget { position: fixed; bottom: max(.8rem, env(safe-area-inset-bottom)); right: max(.8rem, env(safe-area-inset-right)); z-index: 10; color: #10334c; }
+.ta-widget { --ta-launch-width: min(220px, 38vw); position: fixed; bottom: max(.8rem, env(safe-area-inset-bottom)); right: max(.8rem, env(safe-area-inset-right)); z-index: 10; color: #10334c; }
 .ta-launch, .ta-panel button { min-height: 44px; font: inherit; cursor: pointer; }
-.ta-launch { display: flex; align-items: center; gap: .5rem; background: #ffc527; color: #10334c; border: 1px solid #10334c; border-radius: 2rem; padding: .6rem .9rem; font-weight: 750; }
-.ta-panel { position: absolute; display: flex; flex-direction: column; bottom: calc(100% + .55rem); right: 0; width: min(24rem, calc(100vw - 1.6rem)); max-height: min(39rem, calc(100dvh - 5rem)); overflow: hidden; border: 1px solid #10334c; border-radius: .8rem; background: #fcfaf4; box-shadow: 0 8px 30px #10334c2b; }
+.ta-launch {
+  display: block;
+  width: var(--ta-launch-width);
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: .7rem;
+  background: transparent;
+  color: #10334c;
+}
+.ta-launch img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 3px 6px #10334c26);
+}
+.ta-launch:focus-visible { outline: 3px solid #10334c; outline-offset: 3px; }
+@media (hover: hover) {
+  .ta-launch:hover img { filter: drop-shadow(0 6px 10px #10334c52); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ta-launch img { animation: ta-float 4.5s ease-in-out infinite; }
+  .ta-launch:hover img, .ta-launch:focus-visible img { animation-play-state: paused; }
+}
+@keyframes ta-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+@media (max-width: 640px) {
+  .ta-widget { --ta-launch-width: clamp(145px, 39vw, 160px); }
+}
+
+.ta-panel { position: absolute; display: flex; flex-direction: column; bottom: calc(100% + .55rem); right: 0; width: min(24rem, calc(100vw - 1.6rem)); max-height: min(39rem, calc(100dvh - var(--ta-launch-width) * .667 - max(.8rem, env(safe-area-inset-bottom)) - 1rem)); overflow: hidden; border: 1px solid #10334c; border-radius: .8rem; background: #fcfaf4; box-shadow: 0 8px 30px #10334c2b; }
 .ta-panel header { display: flex; align-items: center; justify-content: space-between; gap: .8rem; padding: .65rem .8rem; background: #10334c; color: white; }
 .ta-panel h2 { font: 750 1rem/1.25 system-ui, sans-serif; margin: 0; }
 .ta-panel header p { margin: 0; font-size: .82rem; }
