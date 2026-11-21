@@ -1,0 +1,19 @@
+.tc-card { overflow: hidden; display: flex; flex-direction: column; border-radius: .55rem; background: #fcfaf4; }
+.tc-card .destination-photo { display: block; }
+.tc-card .destination-copy { display: flex; flex: 1; flex-direction: column; gap: .75rem; }
+.tc-card .destination-copy > :is(h3, p) { margin: 0; }
+.tc-card h3 a { text-decoration: none; }
+.tc-card h3 a:hover { text-decoration: underline; }
+.tc-price { display: flex; flex-wrap: wrap; align-items: baseline; gap: .45rem; }
+.tc-price strong { color: #10334c; }
+.tc-actions { display: grid; gap: .5rem; margin-top: auto; }
+.tc-actions .button { width: 100%; }
+.tc-filters { display: flex; flex-wrap: wrap; align-items: end; gap: .8rem; padding: 1rem; background: #fcfaf4; border: 1px solid #d5dfe2; }
+.tc-filters label { font-weight: 650; }
+.tc-filters select { display: block; min-height: 44px; max-width: 100%; padding: .4rem; font: inherit; color: #10334c; background: white; border: 1px solid #52616b; }
+.tc-filters p { margin: 0; }
+.tc-note { padding: .9rem; border-inline-start: 4px solid #ffc527; background: #fcfaf4; }
+.tc-details > dt { font-weight: 750; margin-top: .6rem; }
+.tc-details > dd { margin: .2rem 0 .6rem; }
+.tc-reference { color: #52616b; font-size: .9rem; }
+@media (max-width: 600px) { .tc-filters label, .tc-filters select { width: 100%; } }

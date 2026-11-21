@@ -1,0 +1,15 @@
+{% doc %}
+  Devuelve el departamento configurado como metafield o etiqueta del producto.
+  @param {product} item - Producto de Shopify.
+{% enddoc %}
+{%- assign region = item.metafields.custom.region.value -%}
+{%- if region == blank -%}
+  {%- assign regions = 'Amazonas,Áncash,Apurímac,Arequipa,Ayacucho,Cajamarca,Callao,Cusco,Huancavelica,Huánuco,Ica,Junín,La Libertad,Lambayeque,Lima,Loreto,Madre de Dios,Moquegua,Pasco,Piura,Puno,San Martín,Tacna,Tumbes,Ucayali' | split: ',' -%}
+  {%- for tag in item.tags -%}
+    {%- if regions contains tag -%}
+      {%- assign region = tag -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+{{- region -}}

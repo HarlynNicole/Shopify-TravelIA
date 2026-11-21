@@ -1,3 +1,4 @@
+{%- capture experiences_url -%}{%- render 'travelia-experiences-url' -%}{%- endcapture -%}
 {{ 'travelia-planner.css' | asset_url | stylesheet_tag }}
 <section id="planifica" class="travelia-planner wrap section-space" aria-labelledby="travelia-title-{{ section.id }}">
   <travelia-planner data-engine="{{ 'travelia-itinerary.js' | asset_url }}">
@@ -91,7 +92,7 @@
           <dl data-summary></dl>
           <p class="tp-estimate">Presupuesto orientativo según tu respuesta. Consulta tarifas, disponibilidad y condiciones con cada proveedor.</p>
           <div class="tp-actions">
-            <a class="button" data-packages href="{{ section.settings.experiences_url | default: routes.all_products_collection_url | escape }}">Ver paquetes disponibles</a>
+            <a class="button" data-packages href="{{ section.settings.experiences_url | default: experiences_url | escape }}">Ver paquetes disponibles</a>
             <button class="button button-outline" type="button" data-reset>Realizar una nueva planificación</button>
             <button class="button button-outline" type="button" data-print>Guardar o imprimir itinerario</button>
           </div>

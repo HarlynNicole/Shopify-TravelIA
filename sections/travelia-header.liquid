@@ -1,3 +1,4 @@
+{%- capture experiences_url -%}{%- render 'travelia-experiences-url' -%}{%- endcapture -%}
 <header class="site-header">
   <div class="wrap header-inner">
     <a class="wordmark" href="{{ routes.root_url }}" aria-label="Travelia, inicio">
@@ -13,7 +14,7 @@
       {% else %}
         <a href="{{ routes.root_url }}#destinos">Destinos</a>
         <a href="{{ routes.root_url }}#planifica">Planificador</a>
-        <a href="{{ routes.all_products_collection_url }}">Experiencias</a>
+        <a href="{{ experiences_url }}">Experiencias</a>
         <a href="{{ routes.root_url }}#contacto">Contacto</a>
       {% endif %}
     </nav>

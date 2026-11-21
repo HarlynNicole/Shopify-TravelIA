@@ -1,19 +1,29 @@
+{{ 'travelia-commerce.css' | asset_url | stylesheet_tag }}
 <section class="wrap section-space">
   <p class="eyebrow">Experiencias en Perú</p>
   <h1>{% if collection.handle == 'all' %}Explora experiencias{% else %}{{ collection.title | escape }}{% endif %}</h1>
   {% if collection.description != blank %}<div class="rte">{{ collection.description }}</div>{% endif %}
   {% paginate collection.products by 16 %}
+    <travelia-experiences data-catalog="{{ 'travelia-destinations.js' | asset_url }}">
+    <div class="tc-filters" hidden data-filters>
+      <label>Región <select data-region-filter><option value="">Todas las regiones</option></select></label>
+      <label>Tipo de experiencia <select data-type-filter><option value="">Todos los tipos</option></select></label>
+      <p role="status" data-filter-result></p>
+    </div>
+    {% if paginate.pages > 1 %}<p>Los filtros se aplican a las experiencias de esta página.</p>{% endif %}
     <div class="destination-grid">
       {% for item in collection.products %}
-        {% render 'travelia-product-card', item: item %}
+        {% render 'travelia-product-card', item: item, quick_add: true %}
       {% else %}
         <p>Aún no hay experiencias publicadas en esta colección.</p>
       {% endfor %}
     </div>
+    </travelia-experiences>
     {% if paginate.pages > 1 %}<nav class="pagination" aria-label="Páginas del catálogo">{{ paginate | default_pagination }}</nav>{% endif %}
   {% endpaginate %}
   <p><a href="{{ routes.root_url }}#destinos">Explorar la guía de destinos</a></p>
 </section>
+<script type="module" src="{{ 'travelia-commerce.js' | asset_url }}"></script>
 {% schema %}
 {
   "name": "Colección Travelia",

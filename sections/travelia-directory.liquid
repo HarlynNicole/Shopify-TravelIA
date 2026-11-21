@@ -1,8 +1,9 @@
+{%- capture experiences_url -%}{%- render 'travelia-experiences-url' -%}{%- endcapture -%}
 {{ 'travelia-directory.css' | asset_url | stylesheet_tag }}
 <section id="destinos" class="wrap section-space">
   <div class="section-heading">
     <div><p class="eyebrow">Guía de destinos</p><h2>Catorce lugares para descubrir</h2></div>
-    <a href="{{ routes.all_products_collection_url }}">Ver experiencias de la tienda</a>
+    <a href="{{ experiences_url }}">Ver experiencias de la tienda</a>
   </div>
   <travelia-directory data-catalog="{{ 'travelia-destinations.js' | asset_url }}" data-home="{{ routes.root_url }}">
     <div class="actions td-filters" role="group" aria-label="Filtrar destinos por región natural" hidden>

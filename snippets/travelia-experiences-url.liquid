@@ -1,0 +1,5 @@
+{% doc %}
+  Devuelve la ruta de la colección comercial de Travelia, con respaldo al catálogo general.
+{% enddoc %}
+{%- assign experience_collection = collections['destinos-turisticos'] -%}
+{{- experience_collection.url | default: routes.all_products_collection_url -}}

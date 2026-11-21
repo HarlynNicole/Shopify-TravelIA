@@ -1,9 +1,11 @@
+{{ 'travelia-commerce.css' | asset_url | stylesheet_tag }}
+{%- capture experiences_url -%}{%- render 'travelia-experiences-url' -%}{%- endcapture -%}
 <section class="wrap section-space">
   <p class="eyebrow">Tu viaje</p>
   <h1>Carrito</h1>
   {% if cart.empty? %}
     <p>Tu carrito está vacío.</p>
-    <a class="button" href="{{ routes.all_products_collection_url }}">Explorar experiencias</a>
+    <a class="button" href="{{ experiences_url }}">Explorar experiencias</a>
   {% else %}
     <form action="{{ routes.cart_url }}" method="post" class="cart-form">
       <ul class="cart-items" role="list">
@@ -12,6 +14,7 @@
             {% if item.image %}{{ item.image | image_url: width: 220 | image_tag: widths: '110, 220', sizes: '110px', loading: 'lazy', alt: '' }}{% endif %}
             <div>
               <a href="{{ item.url }}"><strong>{{ item.product.title | escape }}</strong></a>
+              {% if item.product.tags contains 'Simulación académica' %}<p class="tc-reference">Simulación académica · precio referencial</p>{% endif %}
               {% unless item.product.has_only_default_variant %}<p>{{ item.variant.title | escape }}</p>{% endunless %}
               <p>{% if item.original_line_price > item.final_line_price %}<s>{{ item.original_line_price | money_with_currency }}</s> {% endif %}{{ item.final_line_price | money_with_currency }}</p>
               {% for discount in item.line_level_discount_allocations %}<p>{{ discount.discount_application.title | escape }}</p>{% endfor %}
@@ -22,8 +25,9 @@
         {% endfor %}
       </ul>
       <div class="cart-total">
+        <p>Subtotal de artículos <strong>{{ cart.items_subtotal_price | money_with_currency }}</strong></p>
         {% for discount in cart.cart_level_discount_applications %}<p>{{ discount.title | escape }} <strong>−{{ discount.total_allocated_amount | money_with_currency }}</strong></p>{% endfor %}
-        <p>Subtotal <strong>{{ cart.total_price | money_with_currency }}</strong></p>
+        <p>Total del carrito <strong>{{ cart.total_price | money_with_currency }}</strong></p>
         <div class="actions"><button class="button button-outline" type="submit" name="update">Actualizar carrito</button><button class="button" type="submit" name="checkout">Continuar al pago</button></div>
       </div>
     </form>

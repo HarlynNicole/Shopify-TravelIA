@@ -1,15 +1,36 @@
 {% doc %}
-  Muestra una tarjeta de experiencia enlazada a su producto.
+  Muestra una experiencia publicada y permite agregar al carrito productos de variante única.
   @param {product} item - Producto de Shopify.
+  @param {boolean} [quick_add] - Activa el formulario rápido para experiencias de variante única.
 {% enddoc %}
-<article class="destination">
-  <a href="{{ item.url }}" class="product-card-link">
-    {% if item.featured_image != blank %}
-      <div class="destination-photo">{{ item.featured_image | image_url: width: 800 | image_tag: widths: '320, 480, 640, 800', sizes: '(min-width: 1000px) 25vw, (min-width: 600px) 50vw, 100vw', loading: 'lazy' }}</div>
-    {% endif %}
-    <div class="destination-copy">
-      <h3>{{ item.title | escape }}</h3>
-      <p>{% if item.price_varies %}Desde {% endif %}{{ item.price | money_with_currency }}{% unless item.available %} · Agotado{% endunless %}</p>
+{%- capture region -%}{%- render 'travelia-product-region', item: item -%}{%- endcapture -%}
+<article class="destination tc-card" data-experience data-region="{{ region | escape }}" data-handle="{{ item.handle | escape }}" data-product-type="{{ item.type | escape }}">
+  {% if item.featured_image != blank %}
+    <a href="{{ item.url }}" aria-label="Ver {{ item.title | escape }}" class="destination-photo">
+      {{ item.featured_image | image_url: width: 800 | image_tag: widths: '320, 480, 640, 800', sizes: '(min-width: 1000px) 25vw, (min-width: 600px) 50vw, 100vw', loading: 'lazy' }}
+    </a>
+  {% endif %}
+  <div class="destination-copy">
+    {% if region != blank %}<p class="eyebrow">{{ region | escape }}</p>{% endif %}
+    <h3><a href="{{ item.url }}">{{ item.title | escape }}</a></h3>
+    {% if item.description != blank %}<p>{{ item.description | strip_html | truncatewords: 23 | escape }}</p>{% endif %}
+    <p class="tc-price">
+      {% if item.tags contains 'Simulación académica' %}<span>Precio referencial</span>{% endif %}
+      <strong>{% if item.price_varies %}Desde {% endif %}{{ item.price | money_with_currency }}</strong>
+      {% unless item.available %}<span>Agotado</span>{% endunless %}
+    </p>
+    <div class="tc-actions">
+      <a class="button button-outline" href="{{ item.url }}">Ver experiencia</a>
+      {% if quick_add and item.available and item.has_only_default_variant %}
+        {% assign variant = item.selected_or_first_available_variant %}
+        {% if variant.quantity_rule.min == 1 and variant.quantity_rule.increment == 1 and item.selling_plan_groups == empty %}
+          {% form 'product', item %}
+            <input name="id" type="hidden" value="{{ variant.id }}">
+            <input name="quantity" type="hidden" value="1">
+            <button class="button" type="submit" aria-label="Agregar {{ item.title | escape }} al carrito">Agregar al carrito</button>
+          {% endform %}
+        {% endif %}
+      {% endif %}
     </div>
-  </a>
+  </div>
 </article>

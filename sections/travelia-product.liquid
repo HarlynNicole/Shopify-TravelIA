@@ -1,3 +1,5 @@
+{{ 'travelia-commerce.css' | asset_url | stylesheet_tag }}
+{%- capture region -%}{%- render 'travelia-product-region', item: product -%}{%- endcapture -%}
 {% assign selected = product.selected_or_first_available_variant %}
 <section class="wrap section-space product-layout">
   <div class="product-gallery">
@@ -10,8 +12,11 @@
     {% endfor %}
   </div>
   <div class="product-detail">
-    <p class="eyebrow">Experiencia</p>
+    <p class="eyebrow">Experiencia{% if region != blank %} · {{ region | escape }}{% endif %}</p>
     <h1>{{ product.title | escape }}</h1>
+    {% if product.tags contains 'Simulación académica' %}
+      <p class="tc-note">Experiencia de simulación académica. El precio es referencial y no representa una cotización ni una reserva turística confirmada.</p>
+    {% endif %}
     {% if product.available %}
       {% form 'product', product, class: 'form-stack' %}
         {{ form.errors | default_errors }}
@@ -34,6 +39,19 @@
       <p>{{ product.price | money_with_currency }} · Agotado</p>
     {% endif %}
     <div class="rte">{{ product.description }}</div>
+    <dl class="tc-details">
+      {% if product.metafields.custom.atractivos.value != blank %}
+        <dt>Principales atractivos</dt><dd>{{ product.metafields.custom.atractivos | metafield_tag }}</dd>
+      {% else %}
+        <dt data-guide-label hidden>Atractivos del destino</dt>
+        <dd data-guide-attractions data-handle="{{ product.handle | escape }}" hidden></dd>
+      {% endif %}
+      {% if product.metafields.custom.actividades_incluidas.value != blank %}
+        <dt>Actividades incluidas</dt><dd>{{ product.metafields.custom.actividades_incluidas | metafield_tag }}</dd>
+      {% endif %}
+      <dt>Duración</dt>
+      <dd>{% if product.metafields.custom.duracion.value != blank %}{{ product.metafields.custom.duracion | metafield_tag }}{% else %}Por confirmar{% endif %}</dd>
+    </dl>
   </div>
 </section>
 {% assign related = product.collections.first | default: collections.all %}
@@ -49,6 +67,7 @@
 {% if rendered > 0 %}
   <section class="wrap section-space"><h2>Otras experiencias</h2><div class="destination-grid">{{ related_cards }}</div></section>
 {% endif %}
+<script type="module" src="{{ 'travelia-commerce.js' | asset_url }}" data-commerce-catalog="{{ 'travelia-destinations.js' | asset_url }}"></script>
 {% schema %}
 {
   "name": "Experiencia Travelia",
