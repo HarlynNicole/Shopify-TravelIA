@@ -1,0 +1,57 @@
+{% assign selected = product.selected_or_first_available_variant %}
+<section class="wrap section-space product-layout">
+  <div class="product-gallery">
+    {% for media in product.media %}
+      {% if media.media_type == 'image' %}
+        {{ media.preview_image | image_url: width: 1440 | image_tag: widths: '480, 720, 960, 1440', sizes: '(min-width: 900px) 52vw, 100vw', loading: 'lazy', alt: media.alt }}
+      {% elsif media.media_type == 'video' or media.media_type == 'external_video' %}
+        {{ media | media_tag: image_size: '960x', controls: true }}
+      {% endif %}
+    {% endfor %}
+  </div>
+  <div class="product-detail">
+    <p class="eyebrow">Experiencia</p>
+    <h1>{{ product.title | escape }}</h1>
+    {% if product.available %}
+      {% form 'product', product, class: 'form-stack' %}
+        {{ form.errors | default_errors }}
+        {% if product.has_only_default_variant %}
+          <p>{{ selected.price | money_with_currency }}</p>
+          <input type="hidden" name="id" value="{{ selected.id }}">
+        {% else %}
+          <label>Opción y precio
+            <select name="id" required>
+              {% for variant in product.variants %}
+                <option value="{{ variant.id }}" {% if variant == selected %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>{{ variant.title | escape }} · {{ variant.price | money_with_currency }}{% unless variant.available %} · Agotado{% endunless %}</option>
+              {% endfor %}
+            </select>
+          </label>
+        {% endif %}
+        <label>Cantidad <input type="number" name="quantity" min="1" value="1" required></label>
+        <button type="submit" class="button">Agregar al carrito</button>
+      {% endform %}
+    {% else %}
+      <p>{{ product.price | money_with_currency }} · Agotado</p>
+    {% endif %}
+    <div class="rte">{{ product.description }}</div>
+  </div>
+</section>
+{% assign related = product.collections.first | default: collections.all %}
+{% assign rendered = 0 %}
+{% capture related_cards %}
+  {% for item in related.products limit: 5 %}
+    {% if item.id != product.id and rendered < 4 %}
+      {% render 'travelia-product-card', item: item %}
+      {% assign rendered = rendered | plus: 1 %}
+    {% endif %}
+  {% endfor %}
+{% endcapture %}
+{% if rendered > 0 %}
+  <section class="wrap section-space"><h2>Otras experiencias</h2><div class="destination-grid">{{ related_cards }}</div></section>
+{% endif %}
+{% schema %}
+{
+  "name": "Experiencia Travelia",
+  "settings": []
+}
+{% endschema %}

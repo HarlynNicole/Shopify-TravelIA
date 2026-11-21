@@ -1,0 +1,13 @@
+{
+  "type": "header",
+  "name": "Cabecera",
+  "sections": {
+    "main": {
+      "type": "travelia-header",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

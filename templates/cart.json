@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "main": {
+      "type": "travelia-cart",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

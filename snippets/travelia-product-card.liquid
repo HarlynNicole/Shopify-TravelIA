@@ -1,0 +1,15 @@
+{% doc %}
+  Muestra una tarjeta de experiencia enlazada a su producto.
+  @param {product} item - Producto de Shopify.
+{% enddoc %}
+<article class="destination">
+  <a href="{{ item.url }}" class="product-card-link">
+    {% if item.featured_image != blank %}
+      <div class="destination-photo">{{ item.featured_image | image_url: width: 800 | image_tag: widths: '320, 480, 640, 800', sizes: '(min-width: 1000px) 25vw, (min-width: 600px) 50vw, 100vw', loading: 'lazy' }}</div>
+    {% endif %}
+    <div class="destination-copy">
+      <h3>{{ item.title | escape }}</h3>
+      <p>{% if item.price_varies %}Desde {% endif %}{{ item.price | money_with_currency }}{% unless item.available %} · Agotado{% endunless %}</p>
+    </div>
+  </a>
+</article>

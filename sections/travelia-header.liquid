@@ -1,0 +1,34 @@
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="wordmark" href="{{ routes.root_url }}" aria-label="Travelia, inicio">
+      {% if settings.travelia_logo != blank %}
+        {{ settings.travelia_logo | image_url: width: 300 | image_tag: widths: '150, 300', width: 150, alt: 'Travelia' }}
+      {% else %}Travel<span>ia</span>{% endif %}
+    </a>
+    <nav aria-label="Navegación principal">
+      {% if section.settings.menu != blank %}
+        {% for link in section.settings.menu.links %}
+          <a href="{{ link.url }}" {% if link.current %}aria-current="page"{% endif %}>{{ link.title | escape }}</a>
+        {% endfor %}
+      {% else %}
+        <a href="{{ routes.root_url }}#destinos">Destinos</a>
+        <a href="{{ routes.root_url }}#planifica">Planificador</a>
+        <a href="{{ routes.all_products_collection_url }}">Experiencias</a>
+        <a href="{{ routes.root_url }}#contacto">Contacto</a>
+      {% endif %}
+    </nav>
+    <a class="cart-link" href="{{ routes.cart_url }}">Carrito <span>{{ cart.item_count }}</span></a>
+  </div>
+</header>
+{% schema %}
+{
+  "name": "Cabecera Travelia",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menú personalizado"
+    }
+  ]
+}
+{% endschema %}

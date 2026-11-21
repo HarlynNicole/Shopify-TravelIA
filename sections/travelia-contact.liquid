@@ -1,0 +1,27 @@
+<section id="contacto" class="wrap section-space contact">
+  <div><p class="eyebrow">Contacto</p><h2>¿En qué podemos ayudarte?</h2><p>Escríbenos si tienes dudas sobre un destino o una experiencia de la tienda.</p></div>
+  {% assign contact_id = 'Contact-' | append: section.id %}
+  {% form 'contact', id: contact_id, class: 'form-stack' %}
+    {% if form.posted_successfully? %}
+      <p role="status">Recibimos tu mensaje. Gracias por escribirnos.</p>
+    {% else %}
+      {% if form.errors %}<div role="alert">{{ form.errors | default_errors }}</div>{% endif %}
+      <label>Nombre <input type="text" name="contact[name]" autocomplete="name" value="{{ form.name | escape }}" required></label>
+      <label>Correo electrónico <input type="email" name="contact[email]" autocomplete="email" value="{{ form.email | escape }}" required></label>
+      <label>Teléfono (opcional) <input type="tel" name="contact[phone]" autocomplete="tel" value="{{ form.phone | escape }}"></label>
+      <label>Mensaje <textarea name="contact[body]" rows="5" required>{{ form.body | escape }}</textarea></label>
+      <button type="submit" class="button">Enviar mensaje</button>
+    {% endif %}
+  {% endform %}
+</section>
+{% schema %}
+{
+  "name": "Contacto Travelia",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Contacto Travelia"
+    }
+  ]
+}
+{% endschema %}

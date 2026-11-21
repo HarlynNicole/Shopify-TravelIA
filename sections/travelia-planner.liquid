@@ -1,4 +1,4 @@
-<section class="travelia-planner" aria-labelledby="travelia-title-{{ section.id }}">
+<section id="planifica" class="travelia-planner" aria-labelledby="travelia-title-{{ section.id }}">
   <h2 id="travelia-title-{{ section.id }}">Planifica tu viaje</h2>
   <p>Cuéntanos cómo quieres viajar y obtén una propuesta de ruta por el Perú.</p>
   <travelia-planner data-engine="{{ 'travelia-itinerary.js' | asset_url }}">
@@ -72,7 +72,7 @@
       <h4>Antes de viajar</h4>
       <ul data-tips></ul>
       <div class="travelia-planner__actions">
-        <a href="{{ section.settings.experiences_url | default: routes.all_products_collection_url }}">Consultar experiencias</a>
+        <a href="{{ section.settings.experiences_url | default: routes.all_products_collection_url | escape }}">Consultar experiencias</a>
         <button type="button" data-reset>Nueva planificación</button>
       </div>
     </div>

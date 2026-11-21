@@ -1,0 +1,54 @@
+<section class="hero">
+  {% if section.settings.photo != blank %}
+    {{ section.settings.photo | image_url: width: 2400 | image_tag: class: 'hero-photo', widths: '480, 800, 1200, 1600, 2000, 2400', sizes: '100vw', loading: 'eager', fetchpriority: 'high' }}
+  {% endif %}
+  <div class="wrap hero-inner">
+    <p class="eyebrow">{{ section.settings.location | escape }}</p>
+    <h1>{{ section.settings.title | escape }}</h1>
+    <p class="lede">{{ section.settings.description | escape }}</p>
+    <div class="actions">
+      <a class="button" href="{{ routes.root_url }}#planifica">Planifica tu viaje</a>
+      <a class="button button-light" href="{{ routes.root_url }}#destinos">Explora destinos</a>
+    </div>
+  </div>
+</section>
+<section class="wrap trip-benefits" aria-label="Cómo funciona Travelia">
+  <div><h2>Explora el Perú</h2><p>Encuentra ideas para tu próxima escapada entre ocho destinos.</p></div>
+  <div><h2>Diseña tu itinerario</h2><p>Adapta la ruta a tus fechas, intereses y presupuesto.</p></div>
+  <div><h2>Elige experiencias</h2><p>Consulta las actividades que la tienda tenga disponibles.</p></div>
+</section>
+{% schema %}
+{
+  "name": "Portada Travelia",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "photo",
+      "label": "Fotografía panorámica"
+    },
+    {
+      "type": "text",
+      "id": "location",
+      "label": "Ubicación",
+      "default": "Machu Picchu · Cusco, Perú"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "Tu próxima aventura comienza en el Perú."
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Descripción",
+      "default": "De las montañas de Cusco a las dunas de Ica, encuentra un destino y arma una ruta que se adapte a tu forma de viajar."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Portada Travelia"
+    }
+  ]
+}
+{% endschema %}

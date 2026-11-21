@@ -1,0 +1,22 @@
+<section class="wrap section-space">
+  <p class="eyebrow">Experiencias en Perú</p>
+  <h1>{% if collection.handle == 'all' %}Explora experiencias{% else %}{{ collection.title | escape }}{% endif %}</h1>
+  {% if collection.description != blank %}<div class="rte">{{ collection.description }}</div>{% endif %}
+  {% paginate collection.products by 16 %}
+    <div class="destination-grid">
+      {% for item in collection.products %}
+        {% render 'travelia-product-card', item: item %}
+      {% else %}
+        <p>Aún no hay experiencias publicadas en esta colección.</p>
+      {% endfor %}
+    </div>
+    {% if paginate.pages > 1 %}<nav class="pagination" aria-label="Páginas del catálogo">{{ paginate | default_pagination }}</nav>{% endif %}
+  {% endpaginate %}
+  <p><a href="{{ routes.root_url }}#destinos">Explorar la guía de destinos</a></p>
+</section>
+{% schema %}
+{
+  "name": "Colección Travelia",
+  "settings": []
+}
+{% endschema %}

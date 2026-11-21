@@ -1,0 +1,16 @@
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div><a href="{{ routes.root_url }}" class="wordmark">Travel<span>ia</span></a><p>Itinerarios y experiencias para viajar por el Perú.</p></div>
+    <nav aria-label="Pie de página">
+      <a href="{{ routes.root_url }}#destinos">Destinos</a>
+      <a href="{{ routes.root_url }}#contacto">Contacto</a>
+      {% for policy in shop.policies %}{% if policy.body != blank %}<a href="{{ policy.url }}">{{ policy.title | escape }}</a>{% endif %}{% endfor %}
+    </nav>
+  </div>
+</footer>
+{% schema %}
+{
+  "name": "Pie de página Travelia",
+  "settings": []
+}
+{% endschema %}

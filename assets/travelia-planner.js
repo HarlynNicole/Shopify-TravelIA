@@ -88,6 +88,11 @@ class TraveliaPlanner extends HTMLElement {
 
     result.hidden = true;
     form.hidden = false;
+    const destination = form.elements.destination;
+    const requested = new URLSearchParams(location.search).get('destino');
+    if (requested && [...destination.options].some((option) => option.value === requested)) {
+      destination.value = requested;
+    }
     showStep(0, false);
   }
 

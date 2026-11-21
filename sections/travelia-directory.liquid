@@ -1,0 +1,137 @@
+<section id="destinos" class="wrap section-space">
+  <div class="section-heading"><div><p class="eyebrow">Guía de destinos</p><h2>Ocho lugares para descubrir</h2></div><a href="{{ routes.all_products_collection_url }}">Ver experiencias de la tienda</a></div>
+  <ul class="destination-grid" role="list">
+    {% for block in section.blocks %}
+      {% liquid
+        assign experience = block.settings.experience
+        assign photo = block.settings.photo | default: experience.featured_image
+        assign planner_query = block.settings.destination | url_encode
+      %}
+      <li class="destination" {{ block.shopify_attributes }}>
+        {% if photo != blank %}
+          <div class="destination-photo">{{ photo | image_url: width: 800 | image_tag: widths: '320, 480, 640, 800', sizes: '(min-width: 1000px) 25vw, (min-width: 600px) 50vw, 100vw', loading: 'lazy', alt: block.settings.title }}</div>
+        {% elsif block.settings.photo_url != blank %}
+          <div class="destination-photo">
+            {% assign divider = '?' %}
+            {% if block.settings.photo_url contains '?' %}{% assign divider = '&' %}{% endif %}
+            {% assign photo_base = block.settings.photo_url | append: divider | append: 'width=' %}
+            <img src="{{ photo_base | append: '640' | escape }}" srcset="{{ photo_base | append: '320' | escape }} 320w, {{ photo_base | append: '640' | escape }} 640w, {{ photo_base | append: '800' | escape }} 800w" sizes="(min-width: 1000px) 25vw, (min-width: 600px) 50vw, 100vw" width="{{ block.settings.photo_width }}" height="{{ block.settings.photo_height }}" alt="{{ block.settings.title | escape }}" loading="lazy">
+          </div>
+        {% endif %}
+        <div class="destination-copy">
+          <p class="eyebrow">{{ block.settings.region | escape }}</p>
+          <h3>{{ block.settings.title | escape }}</h3>
+          <p>{{ block.settings.description | escape }}</p>
+          {% if experience != blank %}
+            <p>{% if experience.price_varies %}Desde {% endif %}{{ experience.price | money_with_currency }}{% unless experience.available %} · Agotado{% endunless %}</p>
+            <a href="{{ experience.url }}">Ver experiencia</a>
+          {% else %}
+            <a href="{{ routes.root_url }}?destino={{ planner_query }}#planifica">Planificar este destino</a>
+          {% endif %}
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+</section>
+{% schema %}
+{
+  "name": "Directorio de destinos",
+  "settings": [],
+  "max_blocks": 12,
+  "blocks": [
+    {
+      "type": "destination",
+      "name": "Destino",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Nombre"
+        },
+        {
+          "type": "text",
+          "id": "region",
+          "label": "Región"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Descripción"
+        },
+        {
+          "type": "image_picker",
+          "id": "photo",
+          "label": "Fotografía"
+        },
+        {
+          "type": "product",
+          "id": "experience",
+          "label": "Experiencia de Shopify"
+        },
+        {
+          "type": "select",
+          "id": "destination",
+          "label": "Destino del planificador",
+          "options": [
+            {
+              "value": "colca",
+              "label": "Cañón del Colca"
+            },
+            {
+              "value": "gocta",
+              "label": "Catarata de Gocta"
+            },
+            {
+              "value": "kuelap",
+              "label": "Kuélap"
+            },
+            {
+              "value": "titicaca",
+              "label": "Lago Titicaca"
+            },
+            {
+              "value": "humantay",
+              "label": "Laguna Humantay"
+            },
+            {
+              "value": "machupicchu",
+              "label": "Machu Picchu"
+            },
+            {
+              "value": "vinicunca",
+              "label": "Montaña de 7 Colores"
+            },
+            {
+              "value": "huacachina",
+              "label": "Huacachina"
+            }
+          ],
+          "default": "machupicchu"
+        },
+        {
+          "type": "url",
+          "id": "photo_url",
+          "label": "URL de foto alternativa"
+        },
+        {
+          "type": "number",
+          "id": "photo_width",
+          "label": "Ancho de la foto",
+          "default": 800
+        },
+        {
+          "type": "number",
+          "id": "photo_height",
+          "label": "Alto de la foto",
+          "default": 600
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Directorio de destinos"
+    }
+  ]
+}
+{% endschema %}

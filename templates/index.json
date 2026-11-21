@@ -1,0 +1,144 @@
+{
+  "sections": {
+    "hero": {
+      "type": "travelia-home",
+      "settings": {
+        "photo": "shopify://shop_images/upload-1795194974022.jpg"
+      }
+    },
+    "directory": {
+      "type": "travelia-directory",
+      "settings": {},
+      "blocks": {
+        "colca": {
+          "type": "destination",
+          "settings": {
+            "destination": "colca",
+            "title": "Cañón del Colca",
+            "region": "Arequipa",
+            "description": "Miradores, pueblos del valle y paisajes andinos.",
+            "experience": "canon-del-colca",
+            "photo_url": "https://cdn.shopify.com/s/files/1/0813/5540/7498/files/upload-1795196925143.jpg?v=1795196926",
+            "photo_width": 1600,
+            "photo_height": 1067
+          }
+        },
+        "gocta": {
+          "type": "destination",
+          "settings": {
+            "destination": "gocta",
+            "title": "Catarata de Gocta",
+            "region": "Amazonas",
+            "description": "Una caminata entre bosque y cascadas cerca de Cocachimba.",
+            "experience": "catarata-de-gocta",
+            "photo_url": "https://cdn.shopify.com/s/files/1/0813/5540/7498/files/upload-1795196955735.jpg?v=1795196957",
+            "photo_width": 1600,
+            "photo_height": 2400
+          }
+        },
+        "kuelap": {
+          "type": "destination",
+          "settings": {
+            "destination": "kuelap",
+            "title": "Kuélap",
+            "region": "Amazonas",
+            "description": "Murallas de piedra e historia chachapoya sobre el valle.",
+            "experience": "kuelap",
+            "photo_url": "https://cdn.shopify.com/s/files/1/0813/5540/7498/files/upload-1795196943233.jpg?v=1795196944",
+            "photo_width": 1600,
+            "photo_height": 2400
+          }
+        },
+        "titicaca": {
+          "type": "destination",
+          "settings": {
+            "destination": "titicaca",
+            "title": "Lago Titicaca",
+            "region": "Puno",
+            "description": "Islas, tradiciones lacustres y vistas del altiplano.",
+            "experience": "lago-titicaca-e-islas-de-los-uros",
+            "photo_url": "https://cdn.shopify.com/s/files/1/0813/5540/7498/files/upload-1795196937136.jpg?v=1795196938",
+            "photo_width": 1600,
+            "photo_height": 1067
+          }
+        },
+        "humantay": {
+          "type": "destination",
+          "settings": {
+            "destination": "humantay",
+            "title": "Laguna Humantay",
+            "region": "Cusco",
+            "description": "Una laguna de montaña al pie de los nevados.",
+            "experience": "laguna-humantay",
+            "photo_url": "https://cdn.shopify.com/s/files/1/0813/5540/7498/files/upload-1795196863737.jpg?v=1795196865",
+            "photo_width": 1600,
+            "photo_height": 1200
+          }
+        },
+        "machupicchu": {
+          "type": "destination",
+          "settings": {
+            "destination": "machupicchu",
+            "title": "Machu Picchu",
+            "region": "Cusco",
+            "description": "Terrazas incas y montañas cubiertas de bosque.",
+            "experience": "machu-picchu",
+            "photo_url": "https://cdn.shopify.com/s/files/1/0813/5540/7498/files/upload-1795194974022.jpg?v=1795194975",
+            "photo_width": 2400,
+            "photo_height": 3000
+          }
+        },
+        "vinicunca": {
+          "type": "destination",
+          "settings": {
+            "destination": "vinicunca",
+            "title": "Montaña de 7 Colores",
+            "region": "Cusco",
+            "description": "Laderas multicolores en el paisaje altoandino.",
+            "experience": "montana-de-7-colores",
+            "photo_url": "https://cdn.shopify.com/s/files/1/0813/5540/7498/files/upload-1795196949485.jpg?v=1795196951",
+            "photo_width": 1600,
+            "photo_height": 2400
+          }
+        },
+        "huacachina": {
+          "type": "destination",
+          "settings": {
+            "destination": "huacachina",
+            "title": "Huacachina",
+            "region": "Ica",
+            "description": "Un oasis rodeado de dunas en el desierto de Ica.",
+            "experience": "oasis-de-huacachina",
+            "photo_url": "https://cdn.shopify.com/s/files/1/0813/5540/7498/files/upload-1795196931052.jpg?v=1795196932",
+            "photo_width": 1600,
+            "photo_height": 831
+          }
+        }
+      },
+      "block_order": [
+        "colca",
+        "gocta",
+        "kuelap",
+        "titicaca",
+        "humantay",
+        "machupicchu",
+        "vinicunca",
+        "huacachina"
+      ]
+    },
+    "planner": {
+      "type": "travelia-planner",
+      "settings": {}
+    },
+    "contact": {
+      "type": "travelia-contact",
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero",
+    "directory",
+    "planner",
+    "contact"
+  ]
+}

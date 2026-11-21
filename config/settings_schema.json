@@ -1,0 +1,20 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Travelia",
+    "theme_version": "1.0.0",
+    "theme_author": "Travelia",
+    "theme_documentation_url": "https://github.com/HarlynNicole/Shopify-TravelIA",
+    "theme_support_url": "https://github.com/HarlynNicole/Shopify-TravelIA/issues"
+  },
+  {
+    "name": "Identidad de Travelia",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "travelia_logo",
+        "label": "Logo"
+      }
+    ]
+  }
+]

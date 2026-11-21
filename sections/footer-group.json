@@ -1,0 +1,13 @@
+{
+  "type": "footer",
+  "name": "Pie de página",
+  "sections": {
+    "main": {
+      "type": "travelia-footer",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
